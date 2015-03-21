@@ -29,7 +29,7 @@
 ### What is Functional Programming?
 - FP treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data
   - Thanks Wikipedia
-- Functional  like f(x) = x + 2
+- Functional like f(x) = x + 2
 - A given input will always have the same output
 - f(x) is immutable - its definition is not going to change
 
@@ -42,7 +42,7 @@
 - Built on .NET and interoperable - works with C# (... and VB)
 - Created by Don Syme, Microsoft Researcher, and one of the contributors to .NET generics
 
-***
+---
 
 ### F#: 10,000 ft View
 
@@ -53,16 +53,7 @@
 - Statically typed
 - Syntax derives from OCaml
 
-*** 
-
-### Immutable / Mutable
-- Immutable - Unchangeable over time or unable to be changed
-- Mutable - The opposite of immutable
-- Did you know C# strings are immutable?
-  - When you concatenate two strings you’re actually getting a new string.
-  - In C# readonly and const keywords provide immutable behavior
-
-***
+--- 
 
 ### Why F#?
 #### From the F# Marketing Dept.
@@ -71,13 +62,22 @@
 - Type inference leads to more predictable code
 - Terse syntax leads to cleaner, more modular code
 
-*** 
+---
 
 ### F# in the Wild
 
 - Canopy - Wrapper over selenium written in F# - F#rictionless web testing
 - FAKE - F# Make - A DSL for build tasks
 - Xamarin - Write cross-platform apps in F#!
+
+***
+
+### Immutable / Mutable
+- Immutable - Unchangeable over time or unable to be changed
+- Mutable - The opposite of immutable
+- Did you know C# strings are immutable?
+  - When you concatenate two strings you’re actually getting a new string.
+  - In C# readonly and const keywords provide immutable behavior
 
 ***
 
