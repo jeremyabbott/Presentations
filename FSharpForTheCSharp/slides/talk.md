@@ -1,7 +1,7 @@
 - title : Getting Functional w/ F#
 - description : F# for the C# Dev
 - author : Jeremy Abbott
-- theme : night
+- theme : moon
 - transition : default
 
 ***
@@ -180,7 +180,8 @@
 
 ### Type Annoations
 
-    let saySomethingShort' (x:string) (y:string) = sprintf "%s %s" x y
+    let saySomethingShort' (x:string) (y:string) =
+        sprintf "%s %s" x y
 
 - The previous example could have been written with the argument types stated explicitly
 - Most of the time this isn't necessary, which means we can work with typed data without having to write everything out
@@ -189,7 +190,7 @@
 
 ### Currying
 
-	  let saySomethingShort x y = sprintf "%s %s" x y
+    let saySomethingShort x y = sprintf "%s %s" x y
 
 - Functions accept “exactly one input”
 - But that’s totally two parameters (x and y)
@@ -198,14 +199,15 @@
 - The F# compiler rewrites functions with multiple inputs into individual functions that accept one parameter
 - This is called currying, and is named after Haskell Curry
 
-***
+---
 
 ### Currying Example
 	
-	  let saySomethingShort x y = sprintf "%s %s" x y
+    let saySomethingShort x y =
+        sprintf "%s %s" x y
 
-	  let saySomethingShort'' x =
-		    (fun y -> sprintf "%s %s" x y)
+    let saySomethingShort'' x =
+        (fun y -> sprintf "%s %s" x y)
 
 ---
 
@@ -225,6 +227,12 @@
 - The value sayHelloTo is a function that accepts a string and returns a string
 - The value saySomethingShort is a function that accepts two strings
 - We partially applied it by only passing some of the arguments, resulting in a new function that expects the rest of the arguments
+
+--- 
+
+### Piping
+
+
 
 ***
 
@@ -295,7 +303,7 @@
     let updateFirstName person firstName =
         { person with FirstName = firstName } // copy everything and update first name
 
-    let updatedPerson = updatedFirstName someone "John"
+    let updatedPerson = updateFirstName someone "John"
   
 - someone is immutable
 - We can copy the values of someone, into a new record and then update the properties we care about
@@ -399,23 +407,17 @@ _Pattern matching is preferred_
     let fruits = [| "apple"; "banana"; "orange" |]
 
     // Lists
-    let fruits = [ "apple"; "banana"; "orange" ]
+    let fruits' = [ "apple"; "banana"; "orange" ]
 
     // Sequence
-    let fruits = { }
+    let fruits'' = seq { for f in fruits -> f }
 
 ---
 
 ### F# Lists
 
-- F# has special syntax for numerous types of collections
 - F# lists are have a head/tail structure
-- F# has its own implementation of a list which is used heavily in recursion, and is F#’s preferred way to work with collections
-
----
-
-### F# Lists (cont.)
-
+- The head/tail structure supports recursion, which is the preferred mechansism for working with enumerable data in functional programming
 - The head of the list is the first element in the list
 - The tail is everything else
 - The typical pattern is look at the head, evaluate an expression against it (and can keep it or dump it depending on the needs), and then continues processing the tail
