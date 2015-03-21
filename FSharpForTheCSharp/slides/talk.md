@@ -6,6 +6,14 @@
 
 ***
 
+## F# for the C# Dev
+
+![FsReveal](images/fsharp256.png)
+
+### Presented by Jeremy Abbott
+
+***
+
 ### Hi
 
 - I'm Jeremy
@@ -14,19 +22,20 @@
 - 9 years of exp. between programming and PMing
 - Twitter: @mrjabbott
 - Email: jeremymabbott@gmail.com
+- Blog: jeremyabbott.github.io
 
 ***
 
-### Why Do We Care About FP?
+### Why Do We Care About Functional Programming?
 - I got interested in F# because it seems to be everywhere
 - F# is gaining a lot of traction in the .NET community
 - C# is getting more functional
 - JavaScript is everywhere, and works best when treated as a functional language
 - Being comfortable with functional concepts is pragmatic
 
-***
+---
 
-### What is Functional Programming?
+### What is it?
 - FP treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data
   - Thanks Wikipedia
 - Functional like f(x) = x + 2
@@ -73,6 +82,7 @@
 ***
 
 ### Immutable / Mutable
+
 - Immutable - Unchangeable over time or unable to be changed
 - Mutable - The opposite of immutable
 - Did you know C# strings are immutable?
@@ -120,7 +130,7 @@
 - In the function add2
 - add2 and x are just names for values
   - They're immutable
-- values are not variables
+- Values are not variables
 - add2 is the name for the function that maps an integer onto an integer
 - x is the name of the input to add2
 - In a purely mathematical context, adding 2 to an input does not change that input.
@@ -220,9 +230,9 @@
 
 ### Partial Application (Cont.)
 
-	  let saySomethingShort x y = sprintf "%s %s" x y
-	  let sayHelloTo = saySomethingShort "Hello"
-	  printfn "%s" (sayHelloTo "World") // Hello World
+    let saySomethingShort x y = sprintf "%s %s" x y
+    let sayHelloTo = saySomethingShort "Hello"
+    printfn "%s" (sayHelloTo "World") // Hello World
 
 - The value sayHelloTo is a function that accepts a string and returns a string
 - The value saySomethingShort is a function that accepts two strings
@@ -231,8 +241,16 @@
 --- 
 
 ### Piping
+    
+    let sum =
+        [|1..10|] 
+        |> Array.filter (fun s -> s % 2 = 0) 
+        |> Array.sum
+    // val sum : int = 30
 
-
+- Array.filter accepts a filtering function and an array
+- Array.sum accepts an array
+- Piping lets us pass in one expression as the last argument to a function
 
 ***
 
@@ -249,6 +267,7 @@
 ---
 
 ### F# Types - Unit
+
 - Everything in F# is an expression
 - Expressions ultimately evaluate to a value
 - Sometimes we just want a side effect and not an actual value
@@ -269,13 +288,14 @@
 
     let sayHelloWorld () = printfn "Hello World"
 
-- sayHelloWorld is a function that has a domain of unit and a range of string (unit -> string)
+- sayHelloWorld is a function that has a domain of unit and a range of unit (unit -> unit)
 
 ---
 
 ### Tuples
 
-    let myTuple = ("1", 2, 3.0f) // string * int * float
+    let myTuple =
+        ("1", 2, 3.0f) // string * int * float
 
 - The most basic functional type
 - “functional types” refers to types common in functional programming
@@ -286,8 +306,11 @@
 
 ### Record Types
 
-	  type Person = { FirstName : string; LastName : string }
-	  let someone = { FirstName = "Jeremy"; LastName = "Abbott" }
+    type Person =
+        { FirstName : string; LastName : string }
+    let someone =
+        {   FirstName = "Jeremy";
+            LastName = "Abbott" }
 
 - The F# version of classes
 - Immutable construct for group named values (labels)
@@ -298,10 +321,12 @@
 
 ### Record Types and Immutability
 
-    let someone = { FirstName = "Jeremy"; LastName = "Abbott" }
+    let someone =
+        { FirstName = "Jeremy"; LastName = "Abbott" }
 
+    // copy everything and update first name
     let updateFirstName person firstName =
-        { person with FirstName = firstName } // copy everything and update first name
+        { person with FirstName = firstName }
 
     let updatedPerson = updateFirstName someone "John"
   
@@ -323,15 +348,15 @@
 
 ### Discriminated Unions
 
-    type Shape =
-    | Circle of Radius : float
-    | Triangle of Base : float * Height : float
-    | Rectangle of Length : float * Height : float
-        member x.getArea () = 
-            match x with // pattern matching
-            | Circle (r) -> (r ** 2.0) * System.Math.PI 
-            | Triangle (b, h) -> 0.5 * (b * h)
-            | Rectangle (l, h) -> l * h
+type Shape =
+| Circle of Radius : float
+| Triangle of Base : float * Height : float
+| Rectangle of Length : float * Height : float
+    member x.getArea () = 
+        match x with // pattern matching
+        | Circle (r) -> (r ** 2.0) * System.Math.PI 
+        | Triangle (b, h) -> 0.5 * (b * h)
+        | Rectangle (l, h) -> l * h
 
 ---
 
@@ -370,10 +395,10 @@ _All require body to evaluate to unit_
 
 ### Branching
 
-    let someValue = 
-        if boolExpression then “yes”
-        elif boolExpression then “maybe"
-        else “no”
+let someValue = 
+    if boolExpression then “yes”
+    elif boolExpression then “maybe"
+    else “no”
 
 _Pattern matching is preferred_
 
@@ -388,16 +413,22 @@ _Pattern matching is preferred_
 
 ---
 
-### Pattern Matching (Cont.)
+### Pattern Matching
 #### Super Basic Example
 
-	let someValue number =
-		match number with
-		| n when n > 0 -> "postive"
-		| n when n < 0 -> "negative"
-		| _ -> "zero"
+    let someValue number =
+    	match number with
+    	| n when n > 0 -> "postive"
+    	| n when n < 0 -> "negative"
+    	| _ -> "zero"
 
-	printfn "%s" (someValue -1) // negative
+printfn "%s" (someValue -1) // negative
+
+--- 
+
+### Patterning Matching
+
+Demo
 
 ***
 
@@ -421,6 +452,12 @@ _Pattern matching is preferred_
 - The head of the list is the first element in the list
 - The tail is everything else
 - The typical pattern is look at the head, evaluate an expression against it (and can keep it or dump it depending on the needs), and then continues processing the tail
+
+---
+
+### Tail Recursion
+
+Demo
 
 ***
 
