@@ -1,0 +1,852 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Getting Functional w/ F#</title>
+    <meta name="description" content="F# for the C# Dev">
+    <meta name="author" content="Jeremy Abbott">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="//code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="//code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/style.css" />
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/deedle.css" />
+    <link type="text/css" rel="stylesheet" href="css/custom.css" />
+    <script src="fsharp.formatting/styles/tips.js" type="text/javascript"></script>
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+    </script>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="reveal">
+        <div class="tip" id="fs1">Multiple items<br />type EntryPointAttribute =<br />&#160;&#160;inherit Attribute<br />&#160;&#160;new : unit -&gt; EntryPointAttribute<br /><br />Full name: Microsoft.FSharp.Core.EntryPointAttribute<br /><br />--------------------<br />new : unit -&gt; EntryPointAttribute</div>
+<div class="tip" id="fs2">val main : argv:string [] -&gt; int<br /><br />Full name: CDocument.main</div>
+<div class="tip" id="fs3">val argv : string []</div>
+<div class="tip" id="fs4">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
+<div class="tip" id="fs5">val add2 : x:int -&gt; int<br /><br />Full name: CDocument.add2</div>
+<div class="tip" id="fs6">val x : int</div>
+<div class="tip" id="fs7">val x : int<br /><br />Full name: CDocument.x</div>
+<div class="tip" id="fs8">val saySomethingShort : x:string -&gt; y:string -&gt; string<br /><br />Full name: CDocument.saySomethingShort</div>
+<div class="tip" id="fs9">val x : string</div>
+<div class="tip" id="fs10">val y : string</div>
+<div class="tip" id="fs11">val sprintf : format:Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.sprintf</div>
+<div class="tip" id="fs12">val saySomethingShort&#39; : x:string -&gt; y:string -&gt; string<br /><br />Full name: CDocument.saySomethingShort&#39;</div>
+<div class="tip" id="fs13">val sayHelloTo : (string -&gt; string)<br /><br />Full name: CDocument.sayHelloTo</div>
+<div class="tip" id="fs14">val sayHelloWorld : unit -&gt; unit<br /><br />Full name: CDocument.sayHelloWorld</div>
+<div class="tip" id="fs15">val myTuple : string * int * float32<br /><br />Full name: CDocument.myTuple</div>
+<div class="tip" id="fs16">type Person =<br />&#160;&#160;{FirstName: string;<br />&#160;&#160;&#160;LastName: string;}<br /><br />Full name: CDocument.Person</div>
+<div class="tip" id="fs17">Person.FirstName: string</div>
+<div class="tip" id="fs18">Multiple items<br />val string : value:&#39;T -&gt; string<br /><br />Full name: Microsoft.FSharp.Core.Operators.string<br /><br />--------------------<br />type string = System.String<br /><br />Full name: Microsoft.FSharp.Core.string</div>
+<div class="tip" id="fs19">Person.LastName: string</div>
+<div class="tip" id="fs20">val someone : Person<br /><br />Full name: CDocument.someone</div>
+<div class="tip" id="fs21">val someValue : &#39;a<br /><br />Full name: CDocument.someValue</div>
+
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section >
+
+<h3>Hi</h3>
+
+<ul>
+<li>I'm Jeremy
+<ul>
+<li>Not the figure skater</li>
+</ul></li>
+<li>Developer at Praeses</li>
+<li>9 years of exp. between programming and PMing</li>
+<li>Twitter: @mrjabbott</li>
+<li>Email: jeremymabbott@gmail.com</li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>Why Do We Care About FP?</h3>
+
+<ul>
+<li>I got interested in F# because it seems to be everywhere</li>
+<li>F# is gaining a lot of traction in the .NET community</li>
+<li>C# is getting more functional</li>
+<li>JavaScript is everywhere, and works best when treated as a functional language</li>
+<li>Being comfortable with functional concepts is pragmatic</li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>What is Functional Programming?</h3>
+
+<ul>
+<li>FP treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data
+<ul>
+<li>Thanks Wikipedia</li>
+</ul></li>
+<li>Functional  like f(x) = x + 2</li>
+<li>A given input will always have the same output</li>
+<li>f(x) is immutable - its definition is not going to change</li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>What's F#'s Story?</h3>
+
+<h4>(Alternate Title: Not Another Language)</h4>
+
+<ul>
+<li>F# is a cross-platform, functional-first, multi-paradigm programming language</li>
+<li>Built on .NET and interoperable - works with C# (... and VB)</li>
+<li>Created by Don Syme, Microsoft Researcher, and one of the contributors to .NET generics</li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>F#: 10,000 ft View</h3>
+
+<ul>
+<li>Constructs are immutable by default</li>
+<li>Everything is an expression and evaluates to something (even if that something is nothing)</li>
+<li>Multi-paradigm language with a focus on functional principles</li>
+<li>But supports OO principles too</li>
+<li>Statically typed</li>
+<li>Syntax derives from OCaml</li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>Immutable / Mutable</h3>
+
+<ul>
+<li>Immutable - Unchangeable over time or unable to be changed</li>
+<li>Mutable - The opposite of immutable</li>
+<li>Did you know C# strings are immutable?
+<ul>
+<li>When you concatenate two strings you’re actually getting a new string.</li>
+<li>In C# readonly and const keywords provide immutable behavior</li>
+</ul></li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>Why F#?</h3>
+
+<h4>From the F# Marketing Dept.</h4>
+
+<ul>
+<li>Default immutability limits unwanted side effects</li>
+<li>Type inference leads to more predictable code</li>
+<li>Terse syntax leads to cleaner, more modular code</li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>F# in the Wild</h3>
+
+<ul>
+<li>Canopy - Wrapper over selenium written in F# - F#rictionless web testing</li>
+<li>FAKE - F# Make - A DSL for build tasks</li>
+<li>Xamarin - Write cross-platform apps in F#!</li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>Hello World</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+[&lt;<span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="t">EntryPoint</span>&gt;]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="f">main</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">argv</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="f">printfn</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s">&quot;</span> <span class="s">&quot;Hello world!&quot;</span>
+
+    <span class="n">0</span> <span class="c">// return an integer exit code</span>
+</pre>
+</td>
+</tr>
+</table>
+
+</section>
+
+<section >
+
+<section >
+
+<h3>Let's Talk Functional</h3>
+
+<ul>
+<li>f(x) = x + 2</li>
+<li>This is a function that adds 2 to the input (x)</li>
+<li>x is the "domain"</li>
+<li>The range is the value of x (whatever that is) + 2</li>
+<li>this function maps x to x + 2</li>
+<li>Functions accept “exactly one input” (more on this later)</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>In F# Now</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 8)" onmouseover="showTip(event, 'fs5', 8)" class="f">add2</span> <span onmouseout="hideTip(event, 'fs6', 9)" onmouseover="showTip(event, 'fs6', 9)" class="i">x</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 10)" onmouseover="showTip(event, 'fs6', 10)" class="i">x</span> <span class="o">+</span> <span class="n">2</span>
+</pre>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>val add2 : int -> int</li>
+<li>val add2 : domiain -> range</li>
+<li>The function named add2 maps int to int</li>
+<li>No matter what happens elsewhere in the world (or application), this function will always return the same output for a given input.</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Values, Let and Binding</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 8)" onmouseover="showTip(event, 'fs5', 8)" class="f">add2</span> <span onmouseout="hideTip(event, 'fs6', 9)" onmouseover="showTip(event, 'fs6', 9)" class="i">x</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 10)" onmouseover="showTip(event, 'fs6', 10)" class="i">x</span> <span class="o">+</span> <span class="n">2</span>
+</pre>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>In the function add2</li>
+<li>add2 and x are just names for values
+<ul>
+<li>They're immutable</li>
+</ul></li>
+<li>values are not variables</li>
+<li>add2 is the name for the function that maps an integer onto an integer</li>
+<li>x is the name of the input to add2</li>
+<li>In a purely mathematical context, adding 2 to an input does not change that input.</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Functions are Values</h3>
+
+<ul>
+<li>You can pass functions as arguments to functions because they're "just" values</li>
+<li>Functions that accept functions as arguments are called higher order functions</li>
+</ul>
+
+</section>
+
+</section>
+
+<section >
+
+<h3>Instant Feedback with FSI</h3>
+
+<ul>
+<li>No more math, just code!</li>
+<li>FSharp Interactive</li>
+<li>In Visual Studio</li>
+<li>Or from Fsi.exe</li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>Immutable by Default</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="i">x</span> <span class="o">=</span> <span class="n">2</span> <span class="c">// value x : int = 2</span>
+<span onmouseout="hideTip(event, 'fs7', 12)" onmouseover="showTip(event, 'fs7', 12)" class="i">x</span> <span class="o">=</span> <span class="n">3</span> <span class="c">// val it : bool = false</span>
+<span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="i">x</span> <span class="o">=</span> <span class="n">2</span> <span class="c">// // val it : bool = true</span>
+</pre>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>F# evaluated x = 3 as an expression (everything in F# is an expression)</li>
+<li>The result of the expression x = 3 is false (because x is 2)</li>
+</ul>
+
+</section>
+
+<section >
+
+<section >
+
+<h3>Type Inference and Static Typing</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 26)" onmouseover="showTip(event, 'fs8', 26)" class="f">saySomethingShort</span> <span onmouseout="hideTip(event, 'fs9', 27)" onmouseover="showTip(event, 'fs9', 27)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 28)" onmouseover="showTip(event, 'fs10', 28)" class="i">y</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 29)" onmouseover="showTip(event, 'fs11', 29)" class="f">sprintf</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s"> </span><span class="pf">%s</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs9', 30)" onmouseover="showTip(event, 'fs9', 30)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 31)" onmouseover="showTip(event, 'fs10', 31)" class="i">y</span>
+</pre>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>Types are inferred based on usage</li>
+<li>F# is evaluated from top down</li>
+<li>Binding order matters</li>
+<li>File order matters</li>
+<li>White-space matters</li>
+<li>This allows the compiler to make assumptions about our code, like what types are being passed to our functions</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Let’s Break it Down</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 26)" onmouseover="showTip(event, 'fs8', 26)" class="f">saySomethingShort</span> <span onmouseout="hideTip(event, 'fs9', 27)" onmouseover="showTip(event, 'fs9', 27)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 28)" onmouseover="showTip(event, 'fs10', 28)" class="i">y</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 29)" onmouseover="showTip(event, 'fs11', 29)" class="f">sprintf</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s"> </span><span class="pf">%s</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs9', 30)" onmouseover="showTip(event, 'fs9', 30)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 31)" onmouseover="showTip(event, 'fs10', 31)" class="i">y</span>
+</pre>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>Types are static, but not explicitly defined</li>
+<li>inputs x and y need to be strings, but we didn't had to state it</li>
+<li>Inputs are curried (I'll explain)</li>
+<li>Functions can be partially applied (I'll explain)</li>
+</ul>
+
+</section>
+
+</section>
+
+<section >
+
+<h3>Currying</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 26)" onmouseover="showTip(event, 'fs8', 26)" class="f">saySomethingShort</span> <span onmouseout="hideTip(event, 'fs9', 27)" onmouseover="showTip(event, 'fs9', 27)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 28)" onmouseover="showTip(event, 'fs10', 28)" class="i">y</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 29)" onmouseover="showTip(event, 'fs11', 29)" class="f">sprintf</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s"> </span><span class="pf">%s</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs9', 30)" onmouseover="showTip(event, 'fs9', 30)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 31)" onmouseover="showTip(event, 'fs10', 31)" class="i">y</span>
+</pre>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>Functions accept “exactly one input”</li>
+<li>But that’s totally two parameters (x and y)</li>
+<li>The compiler reads “x:string -> y:string -> string” which can be said as “x goes to y goes to string”
+<ul>
+<li>x maps on to y which maps onto a string</li>
+</ul></li>
+<li>The F# compiler rewrites functions with multiple inputs into individual functions that accept one parameter</li>
+<li>This is called currying, and is named after Haskell Curry</li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>Currying Example</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 32)" onmouseover="showTip(event, 'fs8', 32)" class="f">saySomethingShort</span> <span onmouseout="hideTip(event, 'fs9', 33)" onmouseover="showTip(event, 'fs9', 33)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 34)" onmouseover="showTip(event, 'fs10', 34)" class="i">y</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 35)" onmouseover="showTip(event, 'fs11', 35)" class="f">sprintf</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s"> </span><span class="pf">%s</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs9', 36)" onmouseover="showTip(event, 'fs9', 36)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 37)" onmouseover="showTip(event, 'fs10', 37)" class="i">y</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 38)" onmouseover="showTip(event, 'fs12', 38)" class="f">saySomethingShort&#39;</span> <span onmouseout="hideTip(event, 'fs9', 39)" onmouseover="showTip(event, 'fs9', 39)" class="i">x</span> <span class="o">=</span>
+    (<span class="k">fun</span> <span onmouseout="hideTip(event, 'fs10', 40)" onmouseover="showTip(event, 'fs10', 40)" class="i">y</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs11', 41)" onmouseover="showTip(event, 'fs11', 41)" class="f">sprintf</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s"> </span><span class="pf">%s</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs9', 42)" onmouseover="showTip(event, 'fs9', 42)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 43)" onmouseover="showTip(event, 'fs10', 43)" class="i">y</span>)
+</pre>
+</td>
+</tr>
+</table>
+
+</section>
+
+<section >
+
+<h3>Partial Application</h3>
+
+<ul>
+<li>Only supply some of the arguments to a function</li>
+<li>Compose new, specialized “higher order” functions out of generic underlying functions</li>
+</ul>
+
+</section>
+
+<section >
+
+<h3>Partial Application (Cont.)</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 44)" onmouseover="showTip(event, 'fs8', 44)" class="f">saySomethingShort</span> <span onmouseout="hideTip(event, 'fs9', 45)" onmouseover="showTip(event, 'fs9', 45)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 46)" onmouseover="showTip(event, 'fs10', 46)" class="i">y</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 47)" onmouseover="showTip(event, 'fs11', 47)" class="f">sprintf</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s"> </span><span class="pf">%s</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs9', 48)" onmouseover="showTip(event, 'fs9', 48)" class="i">x</span> <span onmouseout="hideTip(event, 'fs10', 49)" onmouseover="showTip(event, 'fs10', 49)" class="i">y</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 50)" onmouseover="showTip(event, 'fs13', 50)" class="f">sayHelloTo</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 51)" onmouseover="showTip(event, 'fs8', 51)" class="f">saySomethingShort</span> <span class="s">&quot;Hello&quot;</span>
+<span onmouseout="hideTip(event, 'fs4', 52)" onmouseover="showTip(event, 'fs4', 52)" class="f">printfn</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s">&quot;</span> (<span onmouseout="hideTip(event, 'fs13', 53)" onmouseover="showTip(event, 'fs13', 53)" class="f">sayHelloTo</span> <span class="s">&quot;World&quot;</span>) <span class="c">// Hello World</span>
+</pre>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>The value sayHelloTo is a function that accepts a string and returns a string</li>
+<li>The value saySomethingShort is a function that accepts two strings</li>
+<li>We partially applied it by only passing some of the arguments, resulting in a new function that expects the rest of the arguments</li>
+</ul>
+
+</section>
+
+<section >
+
+<section >
+
+<h3>F# Types</h3>
+
+<ul>
+<li>F# is Part of the .NET Framework</li>
+<li>Supports all of the .NET core data types</li>
+<li>byte</li>
+<li>int</li>
+<li>float</li>
+<li>bool</li>
+<li>string</li>
+<li>...</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>F# Types - Unit</h3>
+
+<ul>
+<li>Everything in F# is an expression</li>
+<li>Expressions ultimately evaluate to a value</li>
+<li>Sometimes we just want a side effect and not an actual value</li>
+<li>The unit type - () - represents a value that we are not interested in.</li>
+<li>It is the absence of a specific value</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>F# Types - Unit (Cont.)</h3>
+
+<ul>
+<li>Define a function that doesn’t accept any arguments</li>
+<li>(except that every function takes exactly one input)</li>
+<li>let example () = some expression</li>
+<li>example () // call example and pass in the expected argument- in this case unit</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>F# Types (Cont.)</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 54)" onmouseover="showTip(event, 'fs14', 54)" class="f">sayHelloWorld</span> () <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 55)" onmouseover="showTip(event, 'fs4', 55)" class="f">printfn</span> <span class="s">&quot;Hello World&quot;</span>
+</pre>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>sayHelloWorld is a function that has a domain of unit and a range of string (unit -> string)</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Tuples</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 56)" onmouseover="showTip(event, 'fs15', 56)" class="i">myTuple</span> <span class="o">=</span> (<span class="s">&quot;1&quot;</span>, <span class="n">2</span>, <span class="n">3.0f</span>) <span class="c">// string * int * float</span>
+</pre>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>The most basic functional type</li>
+<li>“functional types” refers to types common in functional programming</li>
+<li>Group values within a single immutable construct</li>
+<li>In spite of the comma delimited syntax, tuples are not collections</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Record Types</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs16', 57)" onmouseover="showTip(event, 'fs16', 57)" class="t">Person</span> <span class="o">=</span> { <span onmouseout="hideTip(event, 'fs17', 58)" onmouseover="showTip(event, 'fs17', 58)" class="i">FirstName</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 59)" onmouseover="showTip(event, 'fs18', 59)" class="t">string</span>; <span onmouseout="hideTip(event, 'fs19', 60)" onmouseover="showTip(event, 'fs19', 60)" class="i">LastName</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 61)" onmouseover="showTip(event, 'fs18', 61)" class="t">string</span> }
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 62)" onmouseover="showTip(event, 'fs20', 62)" class="i">someone</span> <span class="o">=</span> { <span class="i">FirstName</span> <span class="o">=</span> <span class="s">&quot;Jeremy&quot;</span>; <span class="i">LastName</span> <span class="o">=</span> <span class="s">&quot;Abbott&quot;</span> }
+</pre>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>The F# version of classes</li>
+<li>Immutable construct for group named values (labels)</li>
+<li>Individual values can be made mutable</li>
+<li>Commonly used in place of classes</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Discriminated Unions</h3>
+
+<ul>
+<li>Discrete cases that are related to each other</li>
+<li>Enumerations evolved</li>
+<li>Compiles down to an enumeration if the value of each union case is an integer</li>
+<li>Used for:
+<ul>
+<li>simple object hierarchies</li>
+<li>representing tree structures</li>
+<li>Replacing type abbreviations</li>
+</ul></li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Measurements</h3>
+
+<ul>
+<li>F# provides support for units of measurement</li>
+<li>You can provide definitions for converting units of measurement</li>
+<li>You can define your own units of measurement</li>
+<li>"We'll never use this in our business apps..."</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Measurements</h3>
+
+<p>Demo</p>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Functional Types</h3>
+
+<p>Demo</p>
+
+</section>
+
+</section>
+
+<section >
+
+<section >
+
+<h3>Control Flow</h3>
+
+<p>F# supports control flow through
+- while loops
+- while (bool expression) do something
+- for loops
+- for i = 0 to 100 do something
+- enumerable for loop
+- for i in [0..10] do something</p>
+
+<p><em>All require body to evaluate to unit</em></p>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Branching</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 63)" onmouseover="showTip(event, 'fs21', 63)" class="i">someValue</span> <span class="o">=</span> 
+    <span class="k">if</span> <span class="i">boolExpression</span> <span class="k">then</span> 
+    <span class="k">elif</span> <span class="i">boolExpression</span> <span class="k">then</span> 
+    <span class="k">else</span> 
+</pre>
+</td>
+</tr>
+</table>
+
+<p><em>Pattern matching is preferred</em></p>
+
+</section>
+
+</section>
+
+<section >
+
+<section >
+
+<h3>Pattern Matching</h3>
+
+<p>One of F#’s most powerful features
+Match expressions are F#’s primary branching mechanism
+Match expressions are like C# switch statements that evaluate to a value
+Compiler will issue a warning if expressions are missing from pattern</p>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Pattern Matching (Cont.)</h3>
+
+<h4>Super Basic Example</h4>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip">
+<span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre>
+</td>
+<td class="snippet"><pre class="fssnip">
+<span class="k">let</span> <span class="i">someValue</span> <span class="i">number</span> <span class="o">=</span>
+    <span class="k">match</span> <span class="i">number</span> <span class="k">with</span>
+    | <span class="i">n</span> <span class="k">when</span> <span class="i">n</span> <span class="o">&gt;</span> <span class="n">0</span> <span class="k">-&gt;</span> <span class="s">&quot;postive&quot;</span>
+    | <span class="i">n</span> <span class="k">when</span> <span class="i">n</span> <span class="o">&lt;</span> <span class="n">0</span> <span class="k">-&gt;</span> <span class="s">&quot;negative&quot;</span>
+    | _ <span class="k">-&gt;</span> <span class="s">&quot;zero&quot;</span>
+
+<span onmouseout="hideTip(event, 'fs4', 64)" onmouseover="showTip(event, 'fs4', 64)" class="i">printfn</span> <span class="s">&quot;%s&quot;</span> (<span class="i">someValue</span> <span class="o">-</span><span class="n">1</span>) <span class="c">// negative</span>
+</pre>
+</td>
+</tr>
+</table>
+
+</section>
+
+</section>
+
+<section >
+
+<section >
+
+<h3>F# Lists</h3>
+
+<ul>
+<li>F# has special syntax for numerous types of collections</li>
+<li>F# lists are have a head/tail structure</li>
+<li>F# has its own implementation of a list which is used heavily in recursion, and is F#’s preferred way to work with collections</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>F# Lists (cont.)</h3>
+
+<ul>
+<li>The head of the list is the first element in the list</li>
+<li>The tail is everything else</li>
+<li>The typical pattern is look at the head, evaluate an expression against it (and can keep it or dump it depending on the needs), and then continues processing the tail</li>
+</ul>
+
+</section>
+
+</section>
+
+<section >
+
+<section >
+
+<h3>Asynchronous Workflows</h3>
+
+<ul>
+<li>F#’s answer to parallelism and async</li>
+<li>F# has special bindings (let!, do!) along with the async keyword for implementing parallel and async workflows.</li>
+<li>async { expression }</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Asynchronous Workflows (cont.)</h3>
+
+<ul>
+<li>Create Async objects that represent work that needs to happen.</li>
+<li>Use a triggering function to start the work.</li>
+<li>let! - starts an async computation immediately, where let creates an Async object to start later (also applies to do! return!).</li>
+</ul>
+
+</section>
+
+<section author="Jeremy Abbott" description="F# for the C# Dev" theme="night" title="Getting Functional w/ F#" transition="default">
+
+<h3>Asynchronous Workflows</h3>
+
+<p>Demo</p>
+
+</section>
+
+</section>
+
+<section >
+
+<h3>Something Completely Different</h3>
+
+<ul>
+<li>Develop a cross-platform app using Xamarin</li>
+<li>Let's see the code!</li>
+</ul>
+
+<h3>Questions?</h3>
+
+<p>Questions?</p>
+
+</section>
+
+<section >
+
+<h3>Thank You</h3>
+
+<p>Thank you!</p>
+
+</section>
+
+
+
+        </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+
+        // Full list of configuration options available here:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+
+            transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+            // Parallax scrolling
+            // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+            // parallaxBackgroundSize: '2100px 900px',
+
+            // Optional libraries used to extend on reveal.js
+            dependencies: [
+                { src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
+                { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () { return !!document.body.classList; } },
+                { src: 'plugin/notes/notes.js', async: true, condition: function () { return !!document.body.classList; } }
+            ]
+        });
+
+    </script>
+</body>
+</html>
+
