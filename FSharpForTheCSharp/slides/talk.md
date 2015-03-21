@@ -102,7 +102,7 @@
 
 ---
 
-### In F# Now
+### F# Example
     
     let add2 x = x + 2
 
@@ -171,16 +171,25 @@
 
     let saySomethingShort x y = sprintf "%s %s" x y
 
-- Types are static, but not explicitly defined
-- inputs x and y need to be strings, but we didn't had to state it
+- Types are static, but do not have to be stated explicitly
+- inputs x and y need to be strings, but we didn't have to state it
 - Inputs are curried (I'll explain)
 - Functions can be partially applied (I'll explain)
 
-***
+---
+
+### Type Annoations
+
+    let saySomethingShort' (x:string) (y:string) = sprintf "%s %s" x y
+
+- The previous example could have been written with the argument types stated explicitly
+- Most of the time this isn't necessary, which means we can work with typed data without having to write everything out
+
+---
 
 ### Currying
 
-	let saySomethingShort x y = sprintf "%s %s" x y
+	  let saySomethingShort x y = sprintf "%s %s" x y
 
 - Functions accept “exactly one input”
 - But that’s totally two parameters (x and y)
@@ -193,25 +202,25 @@
 
 ### Currying Example
 	
-	let saySomethingShort x y = sprintf "%s %s" x y
+	  let saySomethingShort x y = sprintf "%s %s" x y
 
-	let saySomethingShort' x =
-		(fun y -> sprintf "%s %s" x y)
+	  let saySomethingShort'' x =
+		    (fun y -> sprintf "%s %s" x y)
 
-***
+---
 
 ### Partial Application
 
 - Only supply some of the arguments to a function
 - Compose new, specialized “higher order” functions out of generic underlying functions
 
-***
+---
 
-###Partial Application (Cont.)
+### Partial Application (Cont.)
 
-	let saySomethingShort x y = sprintf "%s %s" x y
-	let sayHelloTo = saySomethingShort "Hello"
-	printfn "%s" (sayHelloTo "World") // Hello World
+	  let saySomethingShort x y = sprintf "%s %s" x y
+	  let sayHelloTo = saySomethingShort "Hello"
+	  printfn "%s" (sayHelloTo "World") // Hello World
 
 - The value sayHelloTo is a function that accepts a string and returns a string
 - The value saySomethingShort is a function that accepts two strings
@@ -250,7 +259,7 @@
 
 ### F# Types (Cont.)
 
-	let sayHelloWorld () = printfn "Hello World"
+    let sayHelloWorld () = printfn "Hello World"
 
 - sayHelloWorld is a function that has a domain of unit and a range of string (unit -> string)
 
@@ -258,7 +267,7 @@
 
 ### Tuples
 
-	let myTuple = ("1", 2, 3.0f) // string * int * float
+    let myTuple = ("1", 2, 3.0f) // string * int * float
 
 - The most basic functional type
 - “functional types” refers to types common in functional programming
@@ -269,8 +278,8 @@
 
 ### Record Types
 
-	type Person = { FirstName : string; LastName : string }
-	let someone = { FirstName = "Jeremy"; LastName = "Abbott" }
+	  type Person = { FirstName : string; LastName : string }
+	  let someone = { FirstName = "Jeremy"; LastName = "Abbott" }
 
 - The F# version of classes
 - Immutable construct for group named values (labels)
@@ -278,6 +287,20 @@
 - Commonly used in place of classes
 
 ---
+
+### Record Types and Immutability
+
+    let someone = { FirstName = "Jeremy"; LastName = "Abbott" }
+
+    let updateFirstName person firstName =
+        { person with FirstName = firstName } // copy everything and update first name
+
+    let updatedPerson = updatedFirstName someone "John"
+  
+- someone is immutable
+- We can copy the values of someone, into a new record and then update the properties we care about
+
+--- 
 
 ### Discriminated Unions
 - Discrete cases that are related to each other
@@ -287,6 +310,20 @@
   - simple object hierarchies
   - representing tree structures
   - Replacing type abbreviations
+
+---
+
+### Discriminated Unions
+
+    type Shape =
+    | Circle of Radius : float
+    | Triangle of Base : float * Height : float
+    | Rectangle of Length : float * Height : float
+        member x.getArea () = 
+            match x with // pattern matching
+            | Circle (r) -> (r ** 2.0) * System.Math.PI 
+            | Triangle (b, h) -> 0.5 * (b * h)
+            | Rectangle (l, h) -> l * h
 
 ---
 
@@ -311,7 +348,7 @@ Demo
 ***
 
 ### Control Flow
-F# supports control flow through
+#### F# supports control flow through
 - while loops
 - while (bool expression) do something
 - for loops
@@ -336,10 +373,10 @@ _Pattern matching is preferred_
 
 ### Pattern Matching
 
-One of F#’s most powerful features
-Match expressions are F#’s primary branching mechanism
-Match expressions are like C# switch statements that evaluate to a value
-Compiler will issue a warning if expressions are missing from pattern
+- One of F#’s most powerful features
+- Match expressions are F#’s primary branching mechanism
+- Match expressions are like C# switch statements that evaluate to a value
+- Compiler will issue a warning if expressions are missing from pattern
 
 ---
 
@@ -355,6 +392,19 @@ Compiler will issue a warning if expressions are missing from pattern
 	printfn "%s" (someValue -1) // negative
 
 ***
+
+### F# Collections
+
+    // Array
+    let fruits = [| "apple"; "banana"; "orange" |]
+
+    // Lists
+    let fruits = [ "apple"; "banana"; "orange" ]
+
+    // Sequence
+    let fruits = { }
+
+---
 
 ### F# Lists
 
