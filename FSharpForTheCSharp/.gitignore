@@ -176,7 +176,7 @@ TestResults.xml
 # Nuget outputs
 nuget/*.nupkg
 .paket/paket.exe
-output
+#output
 paket-files
 release.cmd
 *.bak
