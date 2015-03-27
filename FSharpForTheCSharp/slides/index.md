@@ -1,12 +1,12 @@
-- title : Getting Functional w/ F#
-- description : F# for the C# Dev
+- title : Currying in a Hurry
+- description : Idiomatic approach to F# for OO programmers.
 - author : Jeremy Abbott
 - theme : moon
 - transition : default
 
 ***
 
-## F# for the C# Dev
+Currying in a Hurry
 
 ![FsReveal](images/fsharp256.png)
 
