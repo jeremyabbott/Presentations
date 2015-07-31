@@ -75,7 +75,7 @@ Currying in a Hurry
 
 - Everything is an expression that returns a value
   - Even if that something is nothing
-- Functions always accept an input and return an input
+- Functions always accept an input and ouputs something
   - Even if that input/output is nothing
 - Whitespace matters (think Python)
 - File Order Matters
@@ -187,7 +187,7 @@ Currying in a Hurry
 
 ---
 
-### Values, Let and Binding
+### Bindings and Values
 
     let add2 x = x + 2
 
