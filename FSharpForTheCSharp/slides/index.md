@@ -88,7 +88,7 @@ Currying in a Hurry
 - FAKE - F# Make - A DSL for build tasks
 - Xamarin - Write cross-platform apps in F#!
 
-*** F# All the Things
+*** 
 
 ![FsReveal](images/FSharpAllTheThings.jpg)
 
