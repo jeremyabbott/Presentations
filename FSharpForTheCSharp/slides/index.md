@@ -44,8 +44,9 @@ Currying in a Hurry
 - F# is a cross-platform, functional-first, multi-paradigm programming language
 - Built on .NET and interoperable - works with C# (... and VB)
 - Statically typed and uses the same Core CLR types like object, int, float, string...
-  - And some functional types that compile down things .NET understands
+  - And some functional types that compile down to things .NET understands
 - Created by Don Syme, Microsoft Researcher, and one of the contributors to .NET generics
+- Syntax derives from OCaml
 
 --- 
 
@@ -60,33 +61,24 @@ Currying in a Hurry
 
 ---
 
-### F#: 10,000 ft View
-
-- Constructs are immutable by default
-- Everything is an expression and evaluates to something (even if that something is nothing)
-- Multi-paradigm language with a focus on functional principles
-- But supports OO principles too
-- Statically typed (like C# and VB)
-- Syntax derives from OCaml
-
----
-
 ### The Rules
 
+- Default immutability
 - Everything is an expression that returns a value
   - Even if that something is nothing
-- Functions always accept an input and ouputs something
+- Functions always accept an input and always return something
   - Even if that input/output is nothing
-- Whitespace matters (think Python)
-- File Order Matters
+- Whitespace is significant (think Python)
+- File order matters
 
 ---
 
 ### F# in the Wild
 
-- Canopy - Wrapper over selenium written in F# - F#rictionless web testing
+- Canopy - Wrapper over selenium written in F# - Frictionless web testing
 - FAKE - F# Make - A DSL for build tasks
 - Xamarin - Write cross-platform apps in F#!
+- Paket - Package manager based on F#.
 
 *** 
 
@@ -101,7 +93,7 @@ Currying in a Hurry
 	    printfn "%s" "Hello world!"
         0 // return an integer exit code
         
- Sample Code Here: http://tinyurl.com/FSharpSqlSatBR
+Sample Code Here: http://tinyurl.com/curryingfsharp
  
 ' More interesting example: owin hosted web api in F#
 ' 30 lines of code (w/o comments
@@ -171,7 +163,7 @@ Currying in a Hurry
 - This is a function that adds 2 to the input (x)
 - x is the "domain"
 - The range is the value of x (whatever that is) + 2
-- this function maps x to x + 2
+- This function maps x to x + 2
 - Functions accept “exactly one input” (more on this later)
 
 ---
@@ -181,7 +173,7 @@ Currying in a Hurry
     let add2 x = x + 2
 
 - val add2 : int -> int
-- val add2 : domiain -> range
+- val add2 : domain -> range
 - The function named add2 maps int to int
 - No matter what happens elsewhere in the world (or application), this function will always return the same output for a given input.
 
@@ -197,7 +189,6 @@ Currying in a Hurry
 - Values are not variables
 - add2 is the name for the function that maps an integer onto an integer
 - x is the name of the input to add2
-- In a purely mathematical context, adding 2 to an input does not change that input.
 
 ---
 
@@ -210,15 +201,16 @@ Currying in a Hurry
 
 ### Type Inference and Static Typing
 
-    let saySomethingShort x y = sprintf "%s %s" x y
+    let saySomethingShort = sprintf "%s %s" x y
 
-- Types are inferred based on usage
 - F# is evaluated from top down
+- Types are inferred based on usage
 - Binding order matters
 - File order matters
-- White-space matters
+- Whitespace is significant
+  - Code inside a block must be indented under the line that started the block
 - This allows the compiler to make assumptions about our code, like what types are being passed to our functions
-- I can annotate my types when type inference isn't helpful
+- Type annoations are used to "guide" the compiler
 
 ---
 
@@ -372,6 +364,7 @@ Currying in a Hurry
 ### Discriminated Unions
 
 - Discrete cases that are related to each other
+- Composite type made up of individual types
 - Enumerations evolved
 - Compiles down to an enumeration if the value of each union case is an integer
 - Used for:
@@ -501,5 +494,5 @@ Questions?
 - F# on Slack: http://fsharp.slack.com
 - #FSharp on Twitter
 - The Book of F# by Dave Fancher: https://www.nostarch.com/fsharp
-- Presentation Slides: http://tinyurl.com/FSharpSqlSatBRSlides
-- Code Samples: http://tinyurl.com/FSharpSqlSatBR
+- Presentation Slides: http://tinyurl.com/curryingfsharpslides
+- Code Samples: http://tinyurl.com/curryingfsharp
