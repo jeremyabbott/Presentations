@@ -488,11 +488,12 @@ Questions?
 
 ### Resources
 
-- F# for Fun and Profit: http://fsharpforfunandprofit.com/
-- F# Foundation: http://fsharp.org/
+- [F# for Fun and Profit](http://fsharpforfunandprofit.com/)
+- [F# Foundation](http://fsharp.org/) 
   - Become a member!
-- F# on Slack: http://fsharp.slack.com
-- #FSharp on Twitter
-- The Book of F# by Dave Fancher: https://www.nostarch.com/fsharp
-- Presentation Slides: http://tinyurl.com/curryingfsharpslides
-- Code Samples: http://tinyurl.com/curryingfsharp
+- [F# on Slack](http://fsharp.slack.com)
+- [#FSharp on Twitter](https://twitter.com/search?f=tweets&vertical=default&q=%23fsharp&src=typd)
+- [The Book of F# by Dave Fancher](https://www.nostarch.com/fsharp)
+- [Presentation Slides](http://tinyurl.com/curryingfsharpslides)
+- [Code Samples](http://tinyurl.com/curryingfsharp)
+- [Slides created with FSReveal](https://github.com/fsprojects/FsReveal)
