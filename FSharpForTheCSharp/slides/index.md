@@ -201,7 +201,7 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
 
 ### Type Inference and Static Typing
 
-    let saySomethingShort = sprintf "%s %s" x y
+    let saySomethingShort = sprintf "%s %s"
 
 - F# is evaluated from top down
 - Types are inferred based on usage
@@ -220,7 +220,7 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
         sprintf "%s %s" x y // next line of func indented
 
     // annotated version of previous example
-    let saySomethingShort' (x : string) (y : string) string =
+    let saySomethingShort' (x : string) (y : string) : string =
         sprintf "%s %s" x y 
 ---
 
