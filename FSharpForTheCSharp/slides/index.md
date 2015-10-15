@@ -34,12 +34,12 @@ Currying in a Hurry
   - Thanks Wikipedia
 - Functional like f(x) = x + 2
 - A given input will always have the same output
+- A function has exactly one input and exactly one output
 - f(x) is immutable - its definition does not change
 
 ---
 
 ### What's F#'s Story?
-#### (Alternate Title: Not Another Language)
 
 - F# is a cross-platform, functional-first, multi-paradigm programming language
 - Built on .NET and interoperable - works with C# (... and VB)
@@ -78,7 +78,7 @@ Currying in a Hurry
 - Canopy - Wrapper over selenium written in F# - Frictionless web testing
 - FAKE - F# Make - A DSL for build tasks
 - Xamarin - Write cross-platform apps in F#!
-- Paket - Package manager based on F#.
+- Paket - Package manager based on F#
 
 *** 
 
@@ -133,7 +133,7 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
 
     let x = 2 // value x : int = 2
     x = 3 // val it : bool = false
-    x = 2 // // val it : bool = true
+    x = 2 // val it : bool = true
 
 - F# evaluated x = 3 as an expression (everything in F# is an expression)
 - The result of the expression x = 3 is false (because x is 2)
@@ -182,13 +182,12 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
 ### Bindings and Values
 
     let add2 x = x + 2
-
-- In the function add2
-- add2 and x are just names for values
-  - They're immutable
+    use server = WebApp.Start<Startup>("http://localhost:9000/")
+    do printfn "hello world"
+- bind a name to a value
 - Values are not variables
-- add2 is the name for the function that maps an integer onto an integer
-- x is the name of the input to add2
+- The = operator is associating a name with a value
+- do binding executes code without defining a function or value
 
 ---
 
@@ -196,6 +195,7 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
 
 - You can pass functions as arguments to functions because they're "just" values
 - Functions that accept functions as arguments are called higher order functions
+- You see this in C# when you pass a function name or a lambda as an argument to LINQ method
 
 ***
 
@@ -206,11 +206,8 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
 - F# is evaluated from top down
 - Types are inferred based on usage
 - Binding order matters
-- File order matters
-- Whitespace is significant
-  - Code inside a block must be indented under the line that started the block
 - This allows the compiler to make assumptions about our code, like what types are being passed to our functions
-- Type annoations are used to "guide" the compiler
+- Type annotations are used to "guide" the compiler
 
 ---
 
@@ -229,10 +226,9 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
     let saySomethingShort x y = sprintf "%s %s" x y
 
 - Functions accept “exactly one input”
-- But that’s totally two parameters (x and y)
 - The compiler reads “x:string -> y:string -> string” which can be said as “x goes to y goes to string”
   - x maps on to y which maps onto a string
-- The F# compiler rewrites functions with multiple inputs into individual functions that accept one parameter
+- The F# compiler rewrites functions with multiple inputs into individual functions that accept one parameter and have exactly one output
 - This is called currying, and is named after Haskell Curry
 
 ---
@@ -243,7 +239,7 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
         sprintf "%s %s" x y
 
     let saySomethingShort' x =
-        (fun y -> sprintf "%s %s" x y)
+        fun y -> sprintf "%s %s" x y
 
 ---
 
@@ -264,7 +260,7 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
 - The value saySomethingShort is a function that accepts two strings
 - We partially applied it by only passing some of the arguments, resulting in a new function that expects the rest of the arguments
 
---- 
+---
 
 ### Piping
     
@@ -282,12 +278,12 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
 
 ### F# Types - Unit
 
-- Everything in F# is an expression
-- Expressions ultimately evaluate to a value
-- Sometimes we just want a side effect and not an actual value
-- The unit type - () - represents a value that we are not interested in.
+- Everything in F# is an expression that returns *something*
+- Even if a function doesn't have an input/output it still needs a domain/range
+- Sometimes we just want a side effect and not an actual value (like printing to standard output)
+- The unit type - () - represents a value that we are not interested in
 - It is the absence of a specific value
-- Basically void.
+- Basically void
 
 ---
 
@@ -304,6 +300,7 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
     let sayHelloWorld () = printfn "Hello World"
 
 - sayHelloWorld is a function that has a domain of unit and a range of unit (unit -> unit)
+- A function simply maps the domain onto the range.  
 
 ---
 
@@ -340,7 +337,7 @@ Sample Code Here: http://tinyurl.com/curryingfsharp
 - The F# version of classes
 - Immutable construct for group named values (labels)
 - Think tuples with names
-- Individual values can be made mutable
+- Individual properties can be made mutable
 - Commonly used in place of classes
 
 ---
@@ -437,8 +434,8 @@ _Pattern matching is preferred_
     	| n when n > 0 -> "postive"
     	| n when n < 0 -> "negative"
     	| _ -> "zero"
-
-printfn "%s" (someValue -1) // negative
+    
+    printfn "%s" (someValue -1) // negative
 
 --- 
 
