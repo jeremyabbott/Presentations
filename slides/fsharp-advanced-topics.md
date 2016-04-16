@@ -42,7 +42,7 @@ F# Advanced Topics
   - Pipelining vs. Composition
   - Discriminated Unions
   - Pattern Matching
-  - async
+  - Async workflows
   - Mailbox Processors (actors!)
   
 ---
@@ -68,7 +68,16 @@ F# Advanced Topics
   - Even if that input/output is nothing
 - Whitespace is significant (think Python)
 
-*** 
+***
+
+### Why F#?
+
+![fsharpallthethings](images/miguelfsharplove.png)
+
+- Because Miguel said so!
+- Cross Platform
+
+***
 
 ![fsharpallthethings](images/FSharpAllTheThings.jpg)
 
@@ -120,6 +129,18 @@ F# Advanced Topics
 - The compose operator accepts two functions and an input
 - It applies the first function to the input
 - Then applies the second function using the evaluation of the first
+
+---
+
+### Compose (Cont.)
+
+- func1: ('T1 -> 'T2) -> func2: ('T2 -> 'T3) -> ('T1 -> 'T3)
+
+---
+
+### Pipelining & Compose
+
+Demo
 
 ***
 
@@ -241,9 +262,8 @@ Demo
 
     let x = Async.RunSynchronously asyncInt // wait for the async operation to finish
 
-
 1. Create an async workflow
-2. Start it using one fo the Async methods
+2. Start it using one of the Async methods
 3. Profit!
 
 --- 
@@ -257,15 +277,34 @@ Demo
 
 ### Agents/Actors
 
-    type Agent<T> = MailboxProcessor<T>
+    type Agent<'T> = MailboxProcessor<'T>
     
 - F# has built in support for actors via the MailboxProcessor
 - Often aliased to Agent
 - Great for
   - Distributed programming
-  - 
-  Maintaining state
-  
+  - Maintaining state
+  - Processing concurrent requests serially
+
+--- 
+
+### MailboxProcessor
+    type Agent<'T> = MailboxProcessor<'T>
+    let agent = Agent.Start(fun inbox ->
+        let rec loop () = async {
+            let! msg = inbox.Receive()
+            printfn "%s" msg
+        }
+        loop()
+    )
+    agent.Post("Hello #TCCC20")
+
+---
+
+### MailboxProcessor
+
+Demos
+
 ***
 
 ### Questions?
