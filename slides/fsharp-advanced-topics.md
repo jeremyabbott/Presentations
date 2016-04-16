@@ -72,7 +72,7 @@ F# Advanced Topics
 
 ### Why F#?
 
-![fsharpallthethings](images/miguelfsharplove.png)
+!["Miguel Said So"](images/miguelfsharplove.png)
 
 - Because Miguel said so!
 - Cross Platform
