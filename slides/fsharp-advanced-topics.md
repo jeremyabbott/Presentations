@@ -50,8 +50,8 @@ F# Advanced Topics
 ### The Slides
 
 - Slides
-  - On Azure: http://curryinginahurry.azurewebsites.net/output/fsharp-advanced-topics.html
-  - On GitHub
+  - On Azure: http://tinyurl.com/tccc20fsharp
+  - On GitHub: https://github.com/jeremyabbott/Presentations
 - Created using FsReveal
   - Open source F# project
 - Code on GitHub
