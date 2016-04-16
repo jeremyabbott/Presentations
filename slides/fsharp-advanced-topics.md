@@ -39,20 +39,12 @@ F# Advanced Topics
 ### "Advanced Topics"
 
 - What are we talking about?
+  - Pipelining vs. Composition
   - Discriminated Unions
   - Pattern Matching
   - async
   - Mailbox Processors (actors!)
   
----
-
-### "Advanced Topics"
-
-![test](images/face-with-no-good-gesture.png)
-
-- What aren't we talking about?
-  - Monads
-
 ---
 
 ### The Slides
@@ -254,7 +246,7 @@ Demo
 
 ### Async (Cont.)
 
-- let!, use!, do!, return
+- let!, use!, do!, return!
 - Special keywords used in computational workflows to access the underlying type
 
 ***
