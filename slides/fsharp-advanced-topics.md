@@ -49,9 +49,13 @@ F# Advanced Topics
 
 ### The Slides
 
-- Will be available online
+- Slides
+  - On Azure: http://curryinginahurry.azurewebsites.net/output/fsharp-advanced-topics.html
+  - On GitHub
 - Created using FsReveal
   - Open source F# project
+- Code on GitHub
+  - http://tinyurl.com/tcfsharpgist
 
 ---
 
