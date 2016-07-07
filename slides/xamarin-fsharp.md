@@ -1,12 +1,12 @@
-- title : FsReveal
-- description : Introduction to FsReveal
-- author : Karlkim Suwanmongkol
+- title : What's New for F# in Xamarin?
+- description : Explore the Additional F# Support in Xamarin
+- author : Jeremy Abbott
 - theme : night
 - transition : default
 
 ***
 
-### What is FsReveal?
+### 
 
 - Generates [reveal.js](http://lab.hakim.se/reveal-js/#/) presentation from [markdown](http://daringfireball.net/projects/markdown/)
 - Utilizes [FSharp.Formatting](https://github.com/tpetricek/FSharp.Formatting) for markdown parsing
