@@ -19,6 +19,8 @@ Logary - Logging for .NET
 - Non-blocking logging
 - Written in F#
 - Now w/ C# Extensions!
+- Written by Henrik Feldt (aka @haf)
+  - One of the creators of Suave!
 
 ***
 
