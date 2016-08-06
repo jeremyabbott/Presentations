@@ -48,18 +48,7 @@ F# Advanced Topics
 
 ![slide2](images/sqlsaturday2016/slide2.png)
 
-***
-
-### "Advanced Topics"
-
-- What are we talking about?
-  - Pipelining vs. Composition
-  - Discriminated Unions
-  - Pattern Matching
-  - Async workflows
-  - Mailbox Processors (actors!)
-  
----
+***  
 
 ### The Slides
 
@@ -69,17 +58,6 @@ F# Advanced Topics
 - Created using [FsReveal](https://github.com/fsprojects/FsReveal)
 - Code
   - http://tinyurl.com/fsharpadvancedtopicscode
-
----
-
-### The Rules (Quick Reminder)
-
-- Default immutability
-- Everything is an expression that returns a value
-  - Even if that something is nothing
-- Functions always accept an input and always return something
-  - Even if that input/output is nothing
-- Whitespace is significant (think Python)
 
 ***
 
@@ -92,6 +70,29 @@ F# Advanced Topics
 - Type inference
 - Type providers
 - Enforcement of file order prevents cyclical dependencies
+- The F# community is super friendly
+
+---
+
+### "Advanced Topics"
+
+- What are we talking about?
+  - Pipelining vs. Composition
+  - Discriminated Unions
+  - Pattern Matching
+  - Async workflows
+  - Mailbox Processors (actors!)
+
+---
+
+### The Rules (Quick Reminder)
+
+- Default immutability
+- Everything is an expression that returns a value
+  - Even if that something is nothing
+- Functions always accept an input and always return something
+  - Even if that input/output is nothing
+- Whitespace is significant (think Python)
 
 ***
 
@@ -269,11 +270,11 @@ Demo
 ### Async
 
     let asyncInt = async {
-    let r = new System.Random()
-    printfn "Here we go again %O" DateTime.Now.TimeOfDay
-    do! Async.Sleep <| r.Next(500, 2500)
-    printfn "Done at %O" DateTime.Now.TimeOfDay
-    return r.Next(1000)
+        let r = new System.Random()
+        printfn "Here we go again %O" DateTime.Now.TimeOfDay
+        do! Async.Sleep <| r.Next(500, 2500)
+        printfn "Done at %O" DateTime.Now.TimeOfDay
+        return r.Next(1000)
     }
 
     let x = Async.RunSynchronously asyncInt // wait for the async operation to finish
@@ -299,7 +300,7 @@ Demo
 - Often aliased to Agent
 - Great for
   - Distributed programming
-  - Maintaining state
+  - Maintaining state in an immutable way
   - Processing concurrent requests serially
 
 --- 
@@ -313,7 +314,7 @@ Demo
         }
         loop()
     )
-    agent.Post("Hello #TCCC20")
+    agent.Post("Hello SQL Saturday!")
 
 ---
 
