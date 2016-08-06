@@ -88,7 +88,10 @@ F# Advanced Topics
 !["Miguel Said So"](images/miguelfsharplove.png)
 
 - Because Miguel said so!
-- Cross Platform
+- Default immutability
+- Type inference
+- Type providers
+- Enforcement of file order prevents cyclical dependencies
 
 ***
 
