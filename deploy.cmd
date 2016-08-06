@@ -1,1 +1,1 @@
-call build.cmd GenerateSlides
+call build.cmd %*
