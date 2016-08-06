@@ -36,7 +36,7 @@ F# Advanced Topics
 - Remote work is cool
 - If you're interested hit me up after the talk
 
----
+***
 
 ### SQL Saturday!
 
@@ -64,12 +64,11 @@ F# Advanced Topics
 ### The Slides
 
 - Slides
-  - On Azure: http://tinyurl.com/tccc20fsharp
+  - On Azure: http://tinyurl.com/fsharpadvancedtopics
   - On GitHub: https://github.com/jeremyabbott/Presentations
-- Created using FsReveal
-  - Open source F# project
-- Code on GitHub
-  - http://tinyurl.com/tcfsharpgist
+- Created using [FsReveal](https://github.com/fsprojects/FsReveal)
+- Code
+  - http://tinyurl.com/fsharpadvancedtopicscode
 
 ---
 
@@ -335,6 +334,6 @@ Questions?
 - [F# on Slack](http://fsharp.slack.com)
 - [#FSharp on Twitter](https://twitter.com/search?f=tweets&vertical=default&q=%23fsharp&src=typd)
 - [The Book of F# by Dave Fancher](https://www.nostarch.com/fsharp)
-- [Presentation Slides](http://tinyurl.com/curryingfsharpslides)
-- [Code Samples](http://tinyurl.com/curryingfsharp)
+- [Presentation Slides](http://tinyurl.com/fsharpadvancedtopics)
+- [Code Samples](http://tinyurl.com/fsharpadvancedtopicscode)
 - [Slides created with FSReveal](https://github.com/fsprojects/FsReveal)
