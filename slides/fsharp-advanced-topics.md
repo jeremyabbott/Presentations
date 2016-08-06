@@ -36,18 +36,6 @@ F# Advanced Topics
 - Remote work is cool
 - If you're interested hit me up after the talk
 
-***
-
-### SQL Saturday!
-
-![slide1](images/sqlsaturday2016/slide1.png)
-
----
-
-### Thank You Sponsors
-
-![slide2](images/sqlsaturday2016/slide2.png)
-
 ***  
 
 ### The Slides
