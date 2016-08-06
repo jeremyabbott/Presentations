@@ -5,7 +5,6 @@ open Microsoft.FSharp.Control.WebExtensions
 // *********************************
 // Pipes vs. Composition
 // *********************************
-
 // Pipe operator
 let sum =
     [|1..10|] 
@@ -24,15 +23,6 @@ let sumEvens' = // Output of first function must match input of second function
     Array.filter (fun s -> s % 2 = 0) >> Array.sum // Partially applied filter has an output of (int[] -> int[])
 let sum'' = sumEvens [|1..10|]
 
-// Even More Compose
-let f = string // partially applied function
-let g (x: string) = x.ToCharArray()
-
-let taDa = f >> g
-
-taDa "1234"
-
-
 // *********************************
 // Discriminated Union
 // *********************************
@@ -49,16 +39,16 @@ type Shape =
         | Rectangle (l, h) -> l * h
 
 // create a circle
-let circle = Shape.Circle 5.
+let circle = Shape.Circle 5. 
 
 printfn "%f" (circle.getArea ())
 
 // Discriminated Union that compiles down to an Enum that C# can use
 type Categories =
-    | Sedan = 0
-    | Truck = 1
-    | SUV = 2
-    | Coupe = 3
+    | Sedan = 1
+    | Truck = 2
+    | SUV = 3
+    | Coupe = 4
 
 printfn "%d" <| int Categories.SUV // prints 2
 
@@ -115,6 +105,7 @@ type Model =
     | SixPlus
     | Five
     | FiveS
+
 type Phone = { Manufacturer : string; Model : Model; OperatingSystem : string; Storage : int }
 
 let phones = [{ Manufacturer = "Apple"; Model = Model.Six; OperatingSystem = "iOS"; Storage = 64 };
@@ -209,7 +200,7 @@ printfn "Test not blocking"
 
 // Async with continuations
 
-let fetchGitHubAsync url = async {
+let fetchHtml url = async {
     try
         let uri = new System.Uri(url)
         let webClient = new WebClient()
@@ -221,10 +212,18 @@ let fetchGitHubAsync url = async {
 }
 
 Async.StartWithContinuations (
-    fetchGitHubAsync "http://google.com",
+    fetchHtml "http://google.com",
     (fun _ -> printfn "success"),
     (fun _ -> printfn "not success"),
     (fun _ -> printfn "canceled"))
+
+[|"http://github.com"; "http://fsharp.org"; "http://stackoverflow.com"|]
+
+let v =
+    [|"http://github.com"; "http://fsharp.org"; "http://stackoverflow.com"|]
+    |> Array.map fetchHtml
+    |> Async.Parallel
+    |> Async.RunSynchronously
 
 // *********************************
 // Mailbox Processors/Agents
@@ -252,7 +251,7 @@ type Message = // discriminated union representing the types of messages I can e
     | Post of int
     | Reply of int * AsyncReplyChannel<string>
 
-let getState =
+let postMessage =
     function // function-syntax pattern matching
     | Post i -> i
     | Reply (i, a) -> i
@@ -262,8 +261,8 @@ let boringBot = Agent.Start(fun (inbox : MailboxProcessor<Message>) ->
     let rec messageLoop currentMessage = async {
         let! msg = inbox.Receive() // get the message
         
-        let currentState = getState currentMessage // get the current state
-        let newState = getState msg // get the state of the message
+        let currentState = postMessage currentMessage // get the current state
+        let newState = postMessage msg // get the state of the message
         
         match msg with
         | Reply (i, a) ->
