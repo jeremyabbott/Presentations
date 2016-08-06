@@ -16,6 +16,7 @@ let gitProjectName = "MyProject"
 
 open FsReveal
 open Fake
+open Fake.Azure
 open Fake.Git
 open System.IO
 open System.Diagnostics
@@ -153,11 +154,29 @@ Target "ReleaseSlides" (fun _ ->
     Branches.push tempDocsDir
 )
 
+Target "StageWeb" (fun _ ->
+    // let blacklist =
+    //     [ "typings"
+    //       ".fs"
+    //       ".config"
+    //       ".references"
+    //       "tsconfig.json" ]
+    // let shouldInclude (file:string) =
+    //     blacklist
+    //     |> Seq.forall(not << file.Contains)
+    Kudu.stageFolder (Path.GetFullPath @"output") (fun _ -> true))
+
+Target "Deploy" Kudu.kuduSync
+
 "Clean"
   ==> "GenerateSlides"
   ==> "KeepRunning"
 
 "GenerateSlides"
   ==> "ReleaseSlides"
+
+"GenerateSlides"
+  ==> "StageWeb"
+  ==> "Deploy"
   
 RunTargetOrDefault "KeepRunning"
