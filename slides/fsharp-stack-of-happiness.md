@@ -23,13 +23,15 @@ Featuring Suave, Fable, FAKES, and Paket
 - Email: jeremymabbott@gmail.com
 - Blog: [jeremyabbott.github.io](http://jeremyabbott.github.io)
 
+---
+
 <iframe src="https://giphy.com/embed/3o7aTpj3LZxNF7OuJy" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/filmeditor-movie-mean-girls-3o7aTpj3LZxNF7OuJy">Too Gay to λ</a></p>
 
 ---
 
 ### About Me
 
-- .NET developer for 10 years
+- .NET developer for 11 years
 - Functional programming hobbyist
 - Trying to spread the word of F# in my small way
 
@@ -41,11 +43,20 @@ Featuring Suave, Fable, FAKES, and Paket
   - On Azure: http://curryinginahurry.azurewebsites.net/fsharp-stack-of-happiness.html
   - On GitHub: https://github.com/jeremyabbott/Presentations
 - Created using [FsReveal](https://github.com/fsprojects/FsReveal)
+
+---
+
+### Resources
+
 - Code
   - Suave: https://suave.io
   - Fable: http://fable.io
-  - Fable-Suave-Scaffold: https://github.com/fable-compiler/fable-suave-scaffold
-  
+  - Elmish: https://fable-elmish.github.io/elmish/
+  - Paket: https://fsprojects.github.io/Paket/
+  - FAKE: https://fake.build
+- Stacks
+  - SAFE: https://safe-stack.github.io
+
 ***
 
 ### The F# Stack of Happiness
@@ -61,6 +72,7 @@ Featuring Suave, Fable, FAKES, and Paket
 - FAKE for builds 🛠
 - Paket for .NET dependencies 📦
 - Shared code between server and client 👏🏼
+- All OSS
 - F# everywhere ❤️
 
 ---
@@ -69,12 +81,13 @@ Featuring Suave, Fable, FAKES, and Paket
 
 - Moar F#
     - Pattern matching
-    - Algebraic Data Types
+    - Algebraic data types
     - Default immutability
 - Less JavaScript (but also more)
     - What is `this`? 🤷🏼‍♀️
 - Shared code between client and server
 - Moar productivity! 🚀
+- Commercial support available
 
 ***
 
@@ -86,7 +99,7 @@ Featuring Suave, Fable, FAKES, and Paket
 ---
 
 ### Hello World
-    let simpleApp = (Successful.OK "Hello Portland")
+    let simpleApp = (Successful.OK "Hello San Francisco")
 
     let betterApp =
         choose [
@@ -96,6 +109,7 @@ Featuring Suave, Fable, FAKES, and Paket
     startWebServer defaultConfig betterApp
 
 ---
+
 ### WebParts
     type WebPart = HttpContext -> Async<HttpContext option>
 
@@ -133,9 +147,21 @@ Featuring Suave, Fable, FAKES, and Paket
 ### How it Works
 
 - F# -> Fable -> ES6 -> Babel -> ES5
-- Depends on Webpack to work as of 1.0 Beta
+- Webpack converts F# to ES6 using the Fable compiler
+- Webpack converts ES6 to ES5
 - Fable integrates with the existing JavaScript ecosystem
 - Fable lets you write F# and emit JavaScript you can be proud of!
+
+---
+
+### Getting Started
+
+1. Install the templates
+  - `dotnet new -i Fable.Template`
+  - `dotnet new -i Fable.Template.Elmish.React`
+2. Use one of the templates
+  - `dotnet new fable-elmish-react -n myproject` or
+  - `dotnet new fable -n myproject`
 
 ---
 
@@ -145,15 +171,44 @@ Read the [docs](http://fable.io/docs/compatibility.html) yo
 
 ***
 
-### Fable-Suave-Scaffold
+### SAFE Stack
 
 - Full Stack F#
+    - Suave, Azure, Fable, Elmish
 - Edit, Save, Recompile Workflow Throughout
 - Leverages the Elmish architecture on the client with React
 - All you need is dotnet core and VS Code. No heavy tooling.
 - the Fable-Suave-Scaffold was extracted from production code running today
-    - Shout out to Steffen Formkman
-        - Paket, Fable-Suave-Scaffold, amazing F#er
+    - Shout out to Steffen Forkmann
+        - Paket, SAFE Stack, brilliant and kind F#er/human
+
+---
+
+### Elmish
+
+- Leverage the "model view update" architecture pioneered by Elm
+- Models define application state
+- Messages declared as cases in a discriminated union
+
+---
+
+### OSS Shout Out
+
+1. Ionide
+1. Suave
+1. Fable
+1. Paket
+1. Fake
+1. Expecto
+1. Canopy
+
+---
+
+### Deployment
+
+- It's really easy to deploy this stack using docker
+- Docker Hub/Azure
+- Docker Cloud/Digital Ocean w/ Linux
 
 ***
 
