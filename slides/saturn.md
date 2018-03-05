@@ -25,83 +25,74 @@ Featuring Suave, Fable, FAKES, and Paket
 
 ---
 
-<iframe src="https://giphy.com/embed/3o7aTpj3LZxNF7OuJy" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/filmeditor-movie-mean-girls-3o7aTpj3LZxNF7OuJy">Too Gay to λ</a></p>
+<iframe src="https://giphy.com/embed/3o7aTpj3LZxNF7OuJy" width="480" height="270" frameBorder="0" class="giphy-embed"></iframe><p>Too Gay to λ</p>
 
 ---
 
 ### About Me
 
-- .NET developer for 11 years
-- Functional programming hobbyist
-- Trying to spread the word of F# in my small way
+- Senior Software Engineer @ Incomm Digital Solutions
+- F# and Functional Programming Fan
 
 ***
 
 ### The Slides
 
 - Slides
-  - On Azure: http://curryinginahurry.azurewebsites.net/fsharp-stack-of-happiness.html
+  - On Azure: http://curryinginahurry.azurewebsites.net/Saturn.html
   - On GitHub: https://github.com/jeremyabbott/Presentations
 - Created using [FsReveal](https://github.com/fsprojects/FsReveal)
 
 ---
 
-### Resources
+### Saturn
 
-- Code
-  - Suave: https://suave.io
-  - Fable: http://fable.io
-  - Elmish: https://fable-elmish.github.io/elmish/
-  - Paket: https://fsprojects.github.io/Paket/
-  - FAKE: https://fake.build
-- Stacks
-  - SAFE: https://safe-stack.github.io
+<iframe src="https://giphy.com/embed/mFqPsiBhLZ0wo" width="480" height="384" frameBorder="0" class="giphy-embed"></iframe>
 
-***
-
-### The F# Stack of Happiness
-
-![FsReveal](images/fsharpHasEverything.jpg)
+Not this Saturn
 
 ---
 
-### The F# Stack of Happiness
+### This Saturn
 
-- Full F# stack with hot reloading on both the client and the server 🥞
-- Makes use of Suave for the back-end on .NET Core 🎩
-- Makes use of Fable for front-end clients web or mobile 🐉
-- FAKE for builds 🛠
-- Paket for .NET dependencies 📦
-- Shared code between server and client 👏🏼
-- All OSS
-- F# everywhere ❤️
+Not a planet but...
+
+- An opinionated functional-first micro-framework
+- It *does* have "rings" though:
+  - Kestrel and ASP.NET Core
+  - Giraffe
+
+---
+
+### Saturn Has Moons
+
+- Dapper for performant SQL data access
+- Simple.Migrater for data migration support
 
 ---
 
 ### Why?
 
-- Moar F#
-  - Pattern matching
-    - Algebraic data types
-    - Default immutability
-- Less JavaScript (but also more)
-  - What is `this`? 🤷🏼‍♀️
-- Shared code between client and server
-- Moar productivity! 🚀
-- Commercial support available
+- Reduces the barrier to entry for folks new to F#
+- Work with a higher level abstraction than ran HTTP requests
+- The MVC pattern is familiar to those coming from other web frameworks
+- High team productivity thanks to the Saturn CLI
 
 ***
 
-### Suave
+### Before Saturn...
 
-- Simple web development library written in F#
-- Encourages you to think of your application as functions
+Use case:
+
+- You're an F#er that wants to write your next web app with F#...
 
 ---
 
-### Hello World
+### Can I Haz Functional?
 
-    let simpleApp = (Successful.OK "Hello San Francisco")
+You show this to your teammates who haven't used a lot of F#:
+
+    let simpleApp = (Successful.OK "Hello F#ers")
 
     let betterApp =
         choose [
@@ -112,21 +103,30 @@ Featuring Suave, Fable, FAKES, and Paket
 
 ---
 
-### WebParts
+### What's That >=>
 
-    type WebPart = HttpContext -> Async<HttpContext option>
-
-- Suave is built around the idea of WebParts
-- By composing a pipeline of functions you can build a response for a given request
-- Accept a context and eventually return either another context (request/response) or None
-
-***
-
-### Fable
-
-- F# |> Babel
+<iframe src="https://giphy.com/embed/12mPcp41D9a1i0" width="480" height="275" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 
 ---
+
+### Suave/Giraffe Are AMAZING
+
+But Saturn can ease people into the abstractions used by these frameworks.
+
+---
+
+### With Saturn
+
+    let sayHello (ctx: HttpContext, name : string) =
+        task {
+            return! Controller.json ctx ("Hello " + name)
+        }
+
+    let resource = controller {
+        show sayHello // routes to GET /<resource>/name
+    }
+
+***
 
 ### JavaScript 😭
 
