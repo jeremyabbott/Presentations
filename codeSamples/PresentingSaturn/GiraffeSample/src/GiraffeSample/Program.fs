@@ -62,6 +62,19 @@ let webApp =
                 route "/" >=> indexHandler "world"
                 routef "/hello/%s" indexHandler
             ]
+        // route "/person" >=>
+        //     choose [
+        //         POST >=> fun (next : HttpFunc) (ctx : Microsoft.AspNetCore.Http.HttpContext) ->
+        //             task {
+        //                 let! person = ctx.BindModelAsync<Person>()
+        //                 return! json person next ctx
+        //             }
+        //         PUT >=> fun (next : HttpFunc) (ctx : Microsoft.AspNetCore.Http.HttpContext) ->
+        //             task {
+        //                 let! person = ctx.BindModelAsync<Person>()
+        //                 return! json person next ctx
+        //             }
+        //     ]
         setStatusCode 404 >=> text "Not Found" ]
 
 // ---------------------------------

@@ -1,4 +1,4 @@
-- title : Saturn: F# Web Apps Simplified
+- title : Saturn: F# |> MVC
 - description : An overview of Saturn, a framework for writing ASP.NET Core Web Apps with F#
 - author : Jeremy Abbott
 - theme : moon
@@ -6,13 +6,11 @@
 
 ***
 
-Being Productive with the F# Stack of Happiness
-<br />
-Featuring Suave, Fable, FAKES, and Paket
+## Saturn: F# |> MVC
 
 ![FsReveal](images/fsharp256.png)
 
-### Presented by Jeremy Abbott
+## Presented by Jeremy Abbott
 
 ***
 
@@ -55,16 +53,19 @@ Not this Saturn
 
 ### This Saturn
 
-Not a planet but...
-
 - An opinionated functional-first micro-framework
-- It *does* have "rings" though:
+- Even thought it's not a planet, it *does* have "rings":
   - Kestrel and ASP.NET Core
   - Giraffe
+- Created by [Krzysztof Cieslak](http://kcieslak.io)
+  - Also created:
+    1. Ionide 👏🏼
+    1. Forge 👏🏼
+    1. VSCode Elm Extension 👏🏼
 
 ---
 
-### Saturn Has Moons
+### Also Moons
 
 - Dapper for performant SQL data access
 - Simple.Migrater for data migration support
@@ -74,7 +75,7 @@ Not a planet but...
 ### Why?
 
 - Reduces the barrier to entry for folks new to F#
-- Work with a higher level abstraction than ran HTTP requests
+- Abstracts away raw HTTP manipulation until you need it.
 - The MVC pattern is familiar to those coming from other web frameworks
 - High team productivity thanks to the Saturn CLI
 
@@ -82,9 +83,7 @@ Not a planet but...
 
 ### Before Saturn...
 
-Use case:
-
-- You're an F#er that wants to write your next web app with F#...
+- You're an F#er that wants to write your next web app at work with F#...
 
 ---
 
@@ -117,139 +116,219 @@ But Saturn can ease people into the abstractions used by these frameworks.
 
 ### With Saturn
 
-    let sayHello (ctx: HttpContext, name : string) =
+    let get (ctx: HttpContext, name : string) =
         task {
             return! Controller.json ctx ("Hello " + name)
         }
 
     let resource = controller {
-        show sayHello // routes to GET /<resource>/name
+        show get // routes to GET /<resource>/name
     }
 
-***
-
-### JavaScript 😭
-
-<img src="images/typeScript.png" style="float: left; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
-<img src="images/typeScript2.png" style="float: left; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
-<p style="clear: both;">
-<!--![typescript1](images/typeScript.png)
-![typescript2](images/typeScript2.png)-->
-
 ---
 
-### Not JavaScript ❤️
-![addFable](images/fableAdd.png)
-![addFable2](images/fableAdd2.png)
+### Recognition
 
-- Real static typing with type inference!
-- The F# compiler tells you something is wrong
-
----
-
-### How it Works
-
-- F# -> Fable -> ES6 -> Babel -> ES5
-- Webpack converts F# to ES6 using the Fable compiler
-- Webpack converts ES6 to ES5
-- Fable integrates with the existing JavaScript ecosystem
-- Fable lets you write F# and emit JavaScript you can be proud of!
-
----
-
-### Getting Started
-
-1. Install the templates
-  - `dotnet new -i Fable.Template`
-  - `dotnet new -i Fable.Template.Elmish.React`
-2. Use one of the templates
-  - `dotnet new fable-elmish-react -n myproject` or
-  - `dotnet new fable -n myproject`
-
----
-
-### Fable Compatibility
-
-Read the [docs](http://fable.io/docs/compatibility.html) yo
+- "It's just an async function that returns JSON"
+- "It looks a little like JavaScript, but with real types"
 
 ***
 
-### SAFE Stack
+### Pipelines
 
-- Full Stack F#
-  - Suave, Azure, Fable, Elmish
-- Edit, Save, Recompile Workflow Throughout
-- Leverages the Elmish architecture on the client with React
-- All you need is dotnet core and VS Code. No heavy tooling.
-- the Fable-Suave-Scaffold was extracted from production code running today
-  - Shout out to Steffen Forkmann
-    - Paket, SAFE Stack, brilliant and kind F#er/human
+- Saturn makes brilliant use of computation expressions
+- The `pipeline` CE is used to combine Giraffe HTTP Handlers in a declarative manner
 
 ---
 
-### Elmish
+### Pipelines (cont.)
 
-- Leverage the "model view update" architecture pioneered by Elm
-- Models define application state
-- Messages declared as cases in a discriminated union
+```fsharp
+let api = pipeline {
+    plug acceptJson
+    set_header "x-pipeline-type" "Api"
+}
+// api is an HttpHandler
+// acceptJson is also an HttpHandler
+// set_header returns an HttpHandler
+// plug takes any HttpHandler
+```
+
+***
+
+### Scopes
+
+CE use to combine `pipeline`s, `controller`s, and other `HttpHandlers`
+
+```fsharp
+let apiRouter = scope {
+    not_found_handler notFound
+    pipe_through api // add a pipeline
+    forward "/albums" Albums.Controller.resource
+}
+```
+
+***
+
+### Scopes (cont.)
+
+```fsharp
+let indexHandler (name : string) =
+    sprintf "Hello %s" name
+    |> json
+
+let anotherScope = scope {
+    getf "/hello%s" indexHandler
+}
+```
+
+***
+
+### Controllers
+
+CE used to create convention based routing/handlers
+
+```fsharp
+// w/o controller
+route "/person" >=>
+    choose [
+        POST >=>
+            fun (next : HttpFunc) (ctx : HttpContext) ->
+            task {
+                let! person = ctx.BindModelAsync<Person>()
+                return! json person next ctx
+            }
+        PUT >=>
+            fun (next : HttpFunc) (ctx : HttpContext) ->
+            task {
+                let! person = ctx.BindModelAsync<Person>()
+                return! json person next ctx
+            }
+    ]
+```
 
 ---
 
-### OSS Shout Out
+### Controllers (cont.)
 
-1. Ionide
-1. Suave
-1. Fable
-1. Paket
-1. Fake
-1. Expecto
-1. Canopy
+```fsharp
+let post (ctx : HttpContext) =
+    task {
+        let! person = ctx.BindModelAsync<Person>()
+        return! Controller.json ctx "Created!"
+    }
+let put (ctx : HttpContext) =
+    task {
+        let! person = ctx.BindModelAsync<Person>()
+        return! Controller.json ctx "Updated!"
+    }
+
+let pc = controller {
+    create post
+    update put
+}
+```
+
+***
+
+### The Application CE
+
+- Builder that returns an IWebHost
+- Declarative syntax that abstracts
+  - IWebHostBuilder
+  - IServiceCollection
+  - IApplicationBuilder
 
 ---
 
-### Deployment
+### The Album Application
 
-- It's really easy to deploy this stack using docker
-- Docker Hub/Azure
-- Docker Cloud/Digital Ocean w/ Linux
+```fsharp
+let app = application {
+    pipe_through endpointPipe
 
-***
-
-### Paket
-
-- Paket is an alternative (and better) package manager for .NET
-- Allows you to reference Nuget, Git repos, and HTTP sources
-- Paket keeps track of exact versions of the pacakges you install
-  - It also gives you visibility into your transitive dependencies
+    router Router.router
+    url "http://0.0.0.0:8085/"
+    memory_cache
+}
+```
 
 ***
 
-### FAKE
+### Saturn CLI
 
-- F# Make: A DSL for build tasks
-- Write your build scripts in F#
+This goes in paket.references:
+
+```text
+dotnet-saturn
+```
+
+And then
+
+```sh
+# dotnet saturn gen.json <singular> <plural> <fields>
+dotnet saturn gen.json Album Albums Id:int Key:guid Name:string Price:decimal
+```
+
+---
+
+### Saturn CLI gen Output
+
+- Model with properties based on passed in fields
+- Repository with CRUD functions (via dapper)
+- Controller with CRUD actions
+- Server-side views (if `gen/gen.html` called)
+- Migration for new Albums database table
+
+---
+
+### Saturn CLI Migrations
+
+```fsharp
+[<Migration(201803041313L, "Create Albums")>]
+type CreateAlbums() =
+  inherit Migration()
+  override __.Up() =
+    base.Execute(@"CREATE TABLE Albums(
+      Id INT NOT NULL,
+      Key TEXT NOT NULL,
+      Name TEXT NOT NULL,
+      Price DECIMAL NOT NULL
+    )") // sqlite data types
+  override __.Down() =
+    base.Execute(@"DROP TABLE Albums")
+```
+
+---
+
+### Run the Migrations
+
+```sh
+# update the database to the latest migration
+dotnet saturn migration
+```
 
 ***
 
-### Questions
+### What's Next?
 
-Any questions?
+Install the template:
+
+```bash
+dotnet new -i Saturn.Template
+dotnet new saturn -lang F#
+```
 
 ***
 
-### Summary
-
-- Full stack F# to make you more productive
-- F# on the server with Suave running on .NET Core
-- F# on the client with Fable, leveraging the power of the JavaScript ecosystem
-- Paket for .NET dependency management
-- FAKE for writing maintainable build scripts
+### Any Questions?
 
 ***
 
 ### Resources
 
+- [Reinventing MVC pattern for web programming with F#](http://kcieslak.io/Reinventing-MVC-for-web-programming-with-F)
+- [Saturn Docs](https://saturnframework.github.io/docs/)
+- [Saturn Source](https://github.com/SaturnFramework/Saturn)
+- [Giraffe Docs](https://github.com/giraffe-fsharp/Giraffe)
 - [F# Foundation](http://fsharp.org/)
-- [F# Applied](http://products.tamizhvendan.in/fsharp-applied/)
-- [The Book of F#](https://www.nostarch.com/fsharp)
-- [F# for Fun and Profit](https://fsharpforfunandprofit.com/)

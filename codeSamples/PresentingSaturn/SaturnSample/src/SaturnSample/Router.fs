@@ -32,17 +32,27 @@ let api = pipeline {
     set_header "x-pipeline-type" "Api"
 }
 
-let notFound next (ctx: Microsoft.AspNetCore.Http.HttpContext) =
-    task {
-        let message = sprintf "%s could not be found" ctx.Request.Path.Value
-        return! json message next ctx
-    }
+let notFound =
+    (fun next (ctx: Microsoft.AspNetCore.Http.HttpContext) ->
+        task {
+            let message = sprintf "%s could not be found" ctx.Request.Path.Value
+            return! json message next ctx
+        }
+    ) >=> setStatusCode 404
+
+let indexHandler (name : string) =
+    sprintf "Hello %s" name
+    |> json
+
+let anotherScope = scope {
+    getf "/hello%s" indexHandler
+}
 
 let apiRouter = scope {
-    not_found_handler (notFound >=> setStatusCode 404)
+    not_found_handler notFound
     pipe_through api
-
     forward "/albums" Albums.Controller.resource
+    forward "" anotherScope
 }
 
 let router = scope {
