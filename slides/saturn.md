@@ -51,9 +51,9 @@ Not this Saturn
 
 ---
 
-### This Saturn
+### This is Saturn
 
-- An opinionated functional-first micro-framework
+- An opinionated functional-first micro-web-framework
 - Even thought it's not a planet, it *does* have "rings":
   - Kestrel and ASP.NET Core
   - Giraffe
@@ -178,7 +178,7 @@ let indexHandler (name : string) =
     |> json
 
 let anotherScope = scope {
-    getf "/hello%s" indexHandler
+    getf "/hello/%s" indexHandler
 }
 ```
 

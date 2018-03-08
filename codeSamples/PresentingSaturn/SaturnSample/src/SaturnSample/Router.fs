@@ -45,7 +45,7 @@ let indexHandler (name : string) =
     |> json
 
 let anotherScope = scope {
-    getf "/hello%s" indexHandler
+    getf "/hello/%s" indexHandler
 }
 
 let apiRouter = scope {
