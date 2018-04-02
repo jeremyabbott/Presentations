@@ -37,7 +37,7 @@
 ### The Slides
 
 - Slides
-  - On Azure: http://curryinginahurry.azurewebsites.net/Saturn.html
+  - On Azure: http://jeremypresents.azurewebsites.net/Saturn.html
   - On GitHub: https://github.com/jeremyabbott/Presentations
 - Created using [FsReveal](https://github.com/fsprojects/FsReveal)
 

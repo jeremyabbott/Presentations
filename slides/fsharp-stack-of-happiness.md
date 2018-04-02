@@ -6,7 +6,7 @@
 
 ***
 
-Being Productive with the F# Stack of Happiness 
+Being Productive with the F# Stack of Happiness
 <br />
 Featuring Suave, Fable, FAKES, and Paket
 
@@ -40,7 +40,7 @@ Featuring Suave, Fable, FAKES, and Paket
 ### The Slides
 
 - Slides
-  - On Azure: http://curryinginahurry.azurewebsites.net/fsharp-stack-of-happiness.html
+  - On Azure: http://jeremypresents.azurewebsites.net/fsharp-stack-of-happiness.html
   - On GitHub: https://github.com/jeremyabbott/Presentations
 - Created using [FsReveal](https://github.com/fsprojects/FsReveal)
 
@@ -116,7 +116,7 @@ Featuring Suave, Fable, FAKES, and Paket
 - Suave is built around the idea of WebParts
 - By composing a pipeline of functions you can build a response for a given request
 - Accept a context and eventually return either another context (request/response) or None
- 
+
 ***
 
 ### Fable
@@ -141,8 +141,8 @@ Featuring Suave, Fable, FAKES, and Paket
 
 - Real static typing with type inference!
 - The F# compiler tells you something is wrong
-    
---- 
+
+---
 
 ### How it Works
 

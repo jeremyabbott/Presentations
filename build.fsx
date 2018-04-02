@@ -9,27 +9,21 @@
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
-let gitOwner = "myGitUser"
-let gitHome = "https://github.com/" + gitOwner
-// The name of the project on GitHub
-let gitProjectName = "MyProject"
 
 open FsReveal
 open Fake
-open Fake.Azure
 open Fake.Git
 open System.IO
 open System.Diagnostics
 open Suave
-open Suave.Web
-open Suave.Http
 open Suave.Operators
 open Suave.Sockets
 open Suave.Sockets.Control
-open Suave.Sockets.AsyncSocket
 open Suave.WebSocket
-open Suave.Utils
 open Suave.Files
+
+let gitUser = getBuildParam "githubuser"
+let gitPassword = getBuildParam "githubpassword"
 
 let outDir = __SOURCE_DIRECTORY__ </> "output"
 let slidesDir = __SOURCE_DIRECTORY__ </> "slides"
@@ -38,11 +32,11 @@ Target "Clean" (fun _ ->
     CleanDirs [outDir]
 )
 
-let fsiEvaluator = 
+let fsiEvaluator =
     let evaluator = FSharp.Literate.FsiEvaluator()
-    evaluator.EvaluationFailed.Add(fun err -> 
+    evaluator.EvaluationFailed.Add(fun err ->
         traceImportant <| sprintf "Evaluating F# snippet failed:\n%s\nThe snippet evaluated:\n%s" err.StdErr err.Text )
-    evaluator 
+    evaluator
 
 let copyStylesheet() =
     try
@@ -52,25 +46,25 @@ let copyStylesheet() =
 
 let copyPics() =
     try
-      CopyDir (outDir </> "images") (slidesDir </> "images") (fun f -> true)
+      CopyDir (outDir </> "images") (slidesDir </> "images") (fun _ -> true)
     with
     | exn -> traceImportant <| sprintf "Could not copy picture: %s" exn.Message
 
-let generateFor (file:FileInfo) = 
+let generateFor (file:FileInfo) =
     try
-        copyPics()
+        // copyPics()
         let rec tryGenerate trials =
             try
                 FsReveal.GenerateFromFile(file.FullName, outDir, fsiEvaluator = fsiEvaluator)
-            with 
-            | exn when trials > 0 -> tryGenerate (trials - 1)
-            | exn -> 
+            with
+            | _ when trials > 0 -> tryGenerate (trials - 1)
+            | exn ->
                 traceImportant <| sprintf "Could not generate slides for: %s" file.FullName
                 traceImportant exn.Message
 
         tryGenerate 3
 
-        copyStylesheet()
+        // copyStylesheet()
     with
     | :? FileNotFoundException as exn ->
         traceImportant <| sprintf "Could not copy file: %s" exn.FileName
@@ -87,12 +81,12 @@ let handleWatcherEvents (events:FileChange seq) =
     refreshEvent.Trigger()
 
 let socketHandler (webSocket : WebSocket) =
-  fun cx -> socket {
+  fun _ -> socket {
     while true do
-      let! refreshed =
+      let! _ =
         Control.Async.AwaitEvent(refreshEvent.Publish)
-        |> Suave.Sockets.SocketOp.ofAsync 
-      do! webSocket.send Text (ASCII.bytes "refreshed") true
+        |> Suave.Sockets.SocketOp.ofAsync
+      do! webSocket.send Text ("refreshed" |> System.Text.Encoding.ASCII.GetBytes |> ByteSegment) true
   }
 
 let startWebServer () =
@@ -106,10 +100,10 @@ let startWebServer () =
 
     let port = findPort 8083
 
-    let serverConfig = 
+    let serverConfig =
         { defaultConfig with
            homeFolder = Some (FullName outDir)
-           bindings = [ HttpBinding.mkSimple HTTP "127.0.0.1" port ]
+           bindings = [ HttpBinding.createSimple HTTP "127.0.0.1" port ]
         }
     let app =
       choose [
@@ -123,14 +117,33 @@ let startWebServer () =
 
 Target "GenerateSlides" (fun _ ->
     !! (slidesDir + "/**/*.md")
-      ++ (slidesDir + "/**/*.fsx")
+    ++ (slidesDir + "/**/*.fsx")
     |> Seq.map fileInfo
     |> Seq.iter generateFor
+    copyPics()
+    copyStylesheet()
+
+    [   ".gitignore"
+        ".travis.yml"
+        "bower.json"
+        "CONTRIBUTING.md"
+        "Gruntfile.js"
+        "LICENSE"
+        "package.json"
+        "paket.dependencies"
+        "paket.version"
+        "822a9c937c902807e376713760e1f07845951d5a.zip"]
+    |> List.iter (fun s -> outDir </> s |> FileUtils.rm)
+
+    outDir
+        </> "reveal.js-822a9c937c902807e376713760e1f07845951d5a"
+        |> FileUtils.rm_rf
+
 )
 
 Target "KeepRunning" (fun _ ->
     use watcher = !! (slidesDir + "/**/*.*") |> WatchChanges handleWatcherEvents
-    
+
     startWebServer ()
 
     traceImportant "Waiting for slide edits. Press any key to stop."
@@ -141,30 +154,40 @@ Target "KeepRunning" (fun _ ->
 )
 
 Target "ReleaseSlides" (fun _ ->
-    if gitOwner = "myGitUser" || gitProjectName = "MyProject" then
-        failwith "You need to specify the gitOwner and gitProjectName in build.fsx"
-    let tempDocsDir = __SOURCE_DIRECTORY__ </> "temp/gh-pages"
-    CleanDir tempDocsDir
-    Repository.cloneSingleBranch "" (gitHome + "/" + gitProjectName + ".git") "gh-pages" tempDocsDir
+    match gitUser, gitPassword with
+    | null, null -> failwith "Git username and password are required"
+    | "", "" -> failwith "Git username and password are required"
+    | u, p ->
+        let publishDir = __SOURCE_DIRECTORY__ </> "publish"
+        let repoUrl = "https://jeremypresentation@jeremypresents.scm.azurewebsites.net/jeremypresents.git"
+        CleanDir publishDir
 
-    fullclean tempDocsDir
-    CopyRecursive outDir tempDocsDir true |> tracefn "%A"
-    StageAll tempDocsDir
-    Git.Commit.Commit tempDocsDir "Update generated slides"
-    Branches.push tempDocsDir
+        Repository.cloneSingleBranch "" repoUrl "master" publishDir
+
+        fullclean publishDir
+        CopyRecursive outDir publishDir true |> tracefn "%A"
+        Git.Staging.StageAll publishDir
+        let commitMessage = sprintf "Publish slides %s" <| System.DateTime.Now.ToLongDateString()
+        Git.Commit.Commit publishDir commitMessage
+        Git.Branches.push publishDir
+
 )
+// Target "ReleaseSlides" (fun _ ->
+//     if gitOwner = "myGitUser" || gitProjectName = "MyProject" then
+//         failwith "You need to specify the gitOwner and gitProjectName in build.fsx"
+//     let tempDocsDir = __SOURCE_DIRECTORY__ </> "temp/gh-pages"
+//     CleanDir tempDocsDir
+//     Repository.cloneSingleBranch "" (gitHome + "/" + gitProjectName + ".git") "gh-pages" tempDocsDir
 
-Target "StageWeb" (fun _ ->
-    Kudu.stageFolder (Path.GetFullPath @"output") (fun _ -> true))
-
-Target "Deploy" Kudu.kuduSync
+//     fullclean tempDocsDir
+//     CopyRecursive outDir tempDocsDir true |> tracefn "%A"
+//     StageAll tempDocsDir
+//     Git.Commit.Commit tempDocsDir "Update generated slides"
+//     Branches.push tempDocsDir
+// )
 
 "Clean"
   ==> "GenerateSlides"
   ==> "KeepRunning"
 
-"GenerateSlides"
-  ==> "StageWeb"
-  ==> "Deploy"
-  
 RunTargetOrDefault "KeepRunning"
