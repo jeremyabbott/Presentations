@@ -1,12 +1,14 @@
 - title : Jeremy Abbott's Presentations
 - description : Index of Jeremy Abbott's Presentations
 - author : Jeremy Abbott
-- theme : moon
+- theme : black
 - transition : default
 
 ***
 
 ### Presentation Links
+
+- [Stack Stack 2018](/safe-stack-2018.html)
 - [Being Productive with the F# Stack of Happiness](/fsharp-stack-of-happiness.html)
 - [F# for C# Devs](/fsharp-for-csharp.html)
 - [F# Advanced Topics](/fsharp-advanced-topics.html)
