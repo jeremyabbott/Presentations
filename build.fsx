@@ -190,4 +190,7 @@ Target "ReleaseSlides" (fun _ ->
   ==> "GenerateSlides"
   ==> "KeepRunning"
 
+"GenerateSlides"
+==> "ReleaseSlides"
+
 RunTargetOrDefault "KeepRunning"
