@@ -1,8 +1,8 @@
 - title : SAFE Stack 2018
 - description : An exploration of full stack F# with hot reloading on both the server and the client.
 - author : Jeremy Abbott
-- theme : black
 - transition : default
+- theme : simple
 
 ***
 
@@ -12,7 +12,7 @@
 
 ### With F# on the Client and Server
 
-![FsReveal](images/safe-logo.png)
+<img style="border: none; box-shadow: none" src="images/safe-logo.png" alt="SAFE Stack logo" />
 
 ### Presented by Jeremy Abbott
 
@@ -22,40 +22,25 @@
 
 - I'm Jeremy 🖖🏼
 - Twitter: [@mrjabbott](http://twitter.com/mrjabbott)
-- Email: jeremymabbott@gmail.com
+- Email: jeremy.abbott@pm.me
 - Blog: [jeremyabbott.github.io](http://jeremyabbott.github.io)
-
-***
-
-### The Slides
-
-- Slides
-  - On Azure: http://jeremypresents.azurewebsites.net/safe-stack-2018.html
-  - On GitHub: https://github.com/jeremyabbott/Presentations
-- Created using [FsReveal](https://github.com/fsprojects/FsReveal)
-
----
-
-### Resources
-
-[Safe-Stack Docs](https://safe-stack.github.io/docs/)
 
 ***
 
 ## The SAFE Stack
 
-![FsReveal](images/fsharpHasEverything.jpg)
+<img style="border: none" src="images/fsharpHasEverything.jpg" alt="The SAFE Stack has Everything" />
 
 ---
 
-### Safe Apps: Functional-First Full Stack Devolopment
+### SAFE Apps: Functional-First Full Stack Devolopment
 
-- F# all the way down ❤️
 - S: Server-side F# with Suave, Giraffe, or Saturn
 - A: Cloud-ready on Azure (or your favorite cloud provider)
 - F: Client-side F# via Fable
 - E: Model-view-update architecture via Elmish
 - Shared code between server and client 👏🏼
+- F# all the way down ❤️
 
 ---
 
@@ -74,9 +59,20 @@
   - [λ Factory](http://lambdafactory.io/)
   - [Compositional IT](https://www.compositional-it.com/)
 
+
+---
+
+### Did You Know
+
+The [SAFE Bookstore sample](https://github.com/SAFE-Stack/SAFE-BookStore) is used as part of the [daily .NET Core validation](https://twitter.com/safe_stack/status/982175741293940736/photo/1)!
+
+<br />
+
+\* The SAFE Stack works with Reactive Native too!
+
 ***
 
-### Server-Side F#
+### S: Server-Side F#
 
 - [Suave](https://suave.io/)
 - [Giraffe](https://github.com/giraffe-fsharp/Giraffe)
@@ -84,9 +80,7 @@
 
 ---
 
-### Hello World
-
-#### Via Suave
+### Hello World (Suave)
 
     let simpleApp = (Successful.OK "Hello F# Conf")
 
@@ -99,7 +93,7 @@
 
 ---
 
-### Via Saturn
+### Hello World (Saturn)
 
     let helloFsharpConf = text "👋🏼 F# Conf 2018"
 
@@ -113,6 +107,18 @@
         use_gzip
     }
 
+---
+
+### Saturn Features
+
+- Elegant MVC Abstractions
+- Rings
+  - ASP.NET Core
+  - Giraffe
+- Moons
+  - Dapper
+  - Simple.Migrations
+- Saturn CLI
 
 ---
 
@@ -126,7 +132,7 @@
 
 ***
 
-### Fable
+### F: Fable
 
 - F# |> Babel
 
@@ -137,8 +143,13 @@
 <img src="images/typeScript.png" style="float: left; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
 <img src="images/typeScript2.png" style="float: left; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
 <p style="clear: both;">
-<!--![typescript1](images/typeScript.png)
-![typescript2](images/typeScript2.png)-->
+
+
+---
+
+### Why Tho
+
+<img style="border: none" src="images/ytho.gif" alt="Why Though?" />
 
 ---
 
@@ -161,17 +172,13 @@
 
 ***
 
-### Elmish
+### E: Elmish
 
 - Leverage the "model view update" architecture pioneered by Elm
 - Models define application state
-- Messages declared as cases in a discriminated union
-
----
-
-### Basic Elmish
-
-
+- Messages are discriminated untion cases
+- Update pattern matches on messages to update the application model
+- Not just for web apps
 
 ***
 
@@ -196,28 +203,23 @@
 
 ### Template Options
 
-Template options content
+- `--Server`
+  - Suave
+  - Giraffe
+  - Saturn (Default 🎉)
+- `--Fulma`
+  - None
+  - Basic
+  - Landing
+  - More ([check the docs](https://safe-stack.github.io/docs/safe-template/)
 
 ***
 
-### Let's Make a Form
+### Let's Make an App
 
-Form demo
-
+Demo Time!
 
 ***
-
-### OSS Shout Out
-
-1. Ionide
-1. Suave
-1. Fable
-1. Paket
-1. Fake
-1. Expecto
-1. Canopy
-
----
 
 ### Deployment
 
@@ -243,17 +245,12 @@ Form demo
 
 ***
 
-### Questions
-
-Any questions?
-
-***
-
 ### Summary
 
 - Full stack F# to make you more productive
-- F# on the server with Suave running on .NET Core
+- F# on the server with Suave/Giraffe/Saturn running on .NET Core
 - F# on the client with Fable, leveraging the power of the JavaScript ecosystem
+- Elmish for managing application state on the client
 - Paket for .NET dependency management
 - FAKE for writing maintainable build scripts
 
@@ -261,7 +258,23 @@ Any questions?
 
 ### Resources
 
-- [F# Foundation](http://fsharp.org/)
-- [F# Applied](http://products.tamizhvendan.in/fsharp-applied/)
-- [The Book of F#](https://www.nostarch.com/fsharp)
-- [F# for Fun and Profit](https://fsharpforfunandprofit.com/)
+- [Safe-Stack Docs](https://safe-stack.github.io/docs/)
+- [Saturn Docs](https://saturnframework.github.io/docs/)
+- [Fable Docs](http://fable.io/docs/)
+- [Elmish Docs](https://fable-elmish.github.io/elmish/index.html)
+- [Fulma Docs](https://mangelmaxime.github.io/Fulma/#home)
+
+***
+
+### The Slides
+
+- Slides
+  - On Azure: http://jeremypresents.azurewebsites.net/safe-stack-2018.html
+  - On GitHub: https://github.com/jeremyabbott/Presentations
+- Created using [FsReveal](https://github.com/fsprojects/FsReveal)
+
+***
+
+### Thank You
+
+<img style="border: none; box-shadow: none" src="images/thankyou.gif" alt="Thank you" />
