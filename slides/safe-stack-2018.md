@@ -27,6 +27,12 @@
 
 ***
 
+### Shout Out
+
+Thank you Tomas, Lena, and Phillip for making F# Conf happen this year!
+
+***
+
 ## The SAFE Stack
 
 <img style="border: none" src="images/fsharpHasEverything.jpg" alt="The SAFE Stack has Everything" />
@@ -95,10 +101,16 @@ The [SAFE Bookstore sample](https://github.com/SAFE-Stack/SAFE-BookStore) is use
 
 ### Hello World (Saturn)
 
-    let helloFsharpConf = text "👋🏼 F# Conf 2018"
+    let helloAction (ctx: HttpContext) = task {
+        return! Controller.text ctx "👋🏼 F# Conf"
+    }
+
+    let controller = controller<string> {
+        index helloAction
+    }
 
     let apiRouter = scope {
-        get "/hello" helloFsharpConf
+        forward "/hello" controller
     }
 
     let app = application {
@@ -140,25 +152,7 @@ The [SAFE Bookstore sample](https://github.com/SAFE-Stack/SAFE-BookStore) is use
 
 ### JavaScript 😭
 
-<img src="images/typeScript.png" style="float: left; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
-<img src="images/typeScript2.png" style="float: left; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
-<p style="clear: both;">
-
-
----
-
-### Why Tho
-
 <img style="border: none" src="images/ytho.gif" alt="Why Though?" />
-
----
-
-### Not JavaScript ❤️
-![addFable](images/fableAdd.png)
-![addFable2](images/fableAdd2.png)
-
-- Real static typing with type inference!
-- The F# compiler tells you something is wrong
 
 ---
 
@@ -176,7 +170,7 @@ The [SAFE Bookstore sample](https://github.com/SAFE-Stack/SAFE-BookStore) is use
 
 - Leverage the "model view update" architecture pioneered by Elm
 - Models define application state
-- Messages are discriminated untion cases
+- Messages are discriminated union cases
 - Update pattern matches on messages to update the application model
 - Not just for web apps
 
@@ -208,16 +202,18 @@ The [SAFE Bookstore sample](https://github.com/SAFE-Stack/SAFE-BookStore) is use
   - Giraffe
   - Saturn (Default 🎉)
 - `--Fulma`
-  - None
   - Basic
   - Landing
-  - More ([check the docs](https://safe-stack.github.io/docs/safe-template/)
+  - Hero
+  - More [check the docs](https://safe-stack.github.io/docs/safe-template/)
 
 ***
 
 ### Let's Make an App
 
-Demo Time!
+    dotnet new SAFE -lang F# --Fulma basic
+    chmod +x *.sh
+    ./build.sh run
 
 ***
 
@@ -226,22 +222,6 @@ Demo Time!
 - It's really easy to deploy this stack using docker
 - Docker Hub/Azure
 - Docker Cloud/Digital Ocean w/ Linux
-
-***
-
-### Paket
-
-- Paket is an alternative (and better) package manager for .NET
-- Allows you to reference Nuget, Git repos, and HTTP sources
-- Paket keeps track of exact versions of the pacakges you install
-    - It also gives you visibility into your transitive dependencies
-
-***
-
-### FAKE
-
-- F# Make: A DSL for build tasks
-- Write your build scripts in F#
 
 ***
 
@@ -259,6 +239,8 @@ Demo Time!
 ### Resources
 
 - [Safe-Stack Docs](https://safe-stack.github.io/docs/)
+- [SAFE-Dojo](https://github.com/CompositionalIT/SAFE-Dojo)
+  - Brought to you by [Compositional IT](https://compositional-it.com/)
 - [Saturn Docs](https://saturnframework.github.io/docs/)
 - [Fable Docs](http://fable.io/docs/)
 - [Elmish Docs](https://fable-elmish.github.io/elmish/index.html)
