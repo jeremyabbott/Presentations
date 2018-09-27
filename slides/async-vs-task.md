@@ -22,6 +22,8 @@ Mistakes Were Made
 ### Contact Me
 
 - I'm Jeremy 🖖🏼
+- Senior Software Engineer at Incomm Digital Solutions
+  - We're hiring
 - Twitter: [@mrjabbott](http://twitter.com/mrjabbott)
 - Email: jeremy.abbott@pm.me
 - Blog: [jeremyabbott.github.io](http://jeremyabbott.github.io)
