@@ -16,3 +16,4 @@
 - [Functional Web Apps w/ Suave](/functional-webapps-suave.html)
 - [Logary](/logary.html)
 - [Saturn](/saturn.html)
+- [Async vs Task](/async-vs-task.html)
