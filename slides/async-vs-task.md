@@ -2,6 +2,9 @@
 - description : Discovering mechanisms for working effectively with .NET Tasks in F#
 - author : Jeremy Abbott
 - transition : default
+- theme: simple
+
+***
 
 # The Curious Case of Async vs. Task
 
